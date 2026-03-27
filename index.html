@@ -30,18 +30,13 @@
       --amber-500: #f59e0b;
       --red-50: #fef2f2;
       --red-500: #ef4444;
-
       --radius: 12px;
       --radius-sm: 8px;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
       --shadow: 0 4px 12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
-      --shadow-lg: 0 10px 30px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
       color: var(--gray-700);
@@ -50,512 +45,209 @@
       font-size: 16px;
     }
 
-    /* ─── Nav ─── */
+    /* Nav */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--gray-200);
     }
-
     .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      gap: 32px;
+      max-width: 1100px; margin: 0 auto; padding: 0 24px;
+      height: 56px; display: flex; align-items: center; gap: 32px;
     }
-
-    .nav-brand {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--gray-900);
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 6px;
-      list-style: none;
-      flex-wrap: wrap;
-    }
-
+    .nav-brand { font-weight: 700; font-size: 0.95rem; color: var(--gray-900); text-decoration: none; white-space: nowrap; }
+    .nav-links { display: flex; gap: 6px; list-style: none; flex-wrap: wrap; }
     .nav-links a {
-      text-decoration: none;
-      font-size: 0.875rem;
-      color: var(--gray-500);
-      padding: 4px 10px;
-      border-radius: 6px;
-      transition: color 0.15s, background 0.15s;
+      text-decoration: none; font-size: 0.875rem; color: var(--gray-500);
+      padding: 4px 10px; border-radius: 6px; transition: color 0.15s, background 0.15s;
     }
+    .nav-links a:hover { color: var(--blue-600); background: var(--blue-50); }
 
-    .nav-links a:hover {
-      color: var(--blue-600);
-      background: var(--blue-50);
-    }
-
-    /* ─── Hero ─── */
+    /* Hero */
     .hero {
       background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 60%);
       border-bottom: 1px solid var(--gray-200);
-      padding: 80px 24px 72px;
-      text-align: center;
+      padding: 80px 24px 72px; text-align: center;
     }
-
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--blue-50);
-      color: var(--blue-600);
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--blue-100);
-      margin-bottom: 24px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--blue-50); color: var(--blue-600);
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 999px; border: 1px solid var(--blue-100); margin-bottom: 24px;
     }
-
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      color: var(--gray-900);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
-      max-width: 18ch;
-      margin-left: auto;
-      margin-right: auto;
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; color: var(--gray-900);
+      line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 20px;
+      max-width: 18ch; margin-left: auto; margin-right: auto;
     }
-
     .hero h1 span {
       background: linear-gradient(135deg, var(--blue-600), var(--indigo-600));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
+    .hero-desc { font-size: 1.1rem; color: var(--gray-500); max-width: 56ch; margin: 0 auto 36px; line-height: 1.8; }
+    .hero-chips { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .chip { padding: 6px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--gray-200); background: var(--white); color: var(--gray-700); }
 
-    .hero-desc {
-      font-size: 1.1rem;
-      color: var(--gray-500);
-      max-width: 56ch;
-      margin: 0 auto 36px;
-      line-height: 1.8;
-    }
-
-    .hero-chips {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      padding: 6px 16px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      border: 1px solid var(--gray-200);
-      background: var(--white);
-      color: var(--gray-700);
-    }
-
-    /* ─── Layout ─── */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ─── Sections ─── */
-    .section {
-      padding: 72px 24px;
-      border-bottom: 1px solid var(--gray-100);
-    }
-
+    /* Layout */
+    .section { padding: 72px 24px; border-bottom: 1px solid var(--gray-100); }
     .section:last-of-type { border-bottom: none; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { margin-bottom: 48px; }
+    .section-eyebrow { display: inline-block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-600); margin-bottom: 10px; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; color: var(--gray-900); letter-spacing: -0.015em; line-height: 1.25; margin-bottom: 12px; }
+    .section-lead { font-size: 1.05rem; color: var(--gray-500); max-width: 64ch; line-height: 1.8; }
 
-    .section-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-header {
-      margin-bottom: 48px;
-    }
-
-    .section-eyebrow {
-      display: inline-block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--blue-600);
-      margin-bottom: 10px;
-    }
-
-    .section-title {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 800;
-      color: var(--gray-900);
-      letter-spacing: -0.015em;
-      line-height: 1.25;
-      margin-bottom: 12px;
-    }
-
-    .section-lead {
-      font-size: 1.05rem;
-      color: var(--gray-500);
-      max-width: 64ch;
-      line-height: 1.8;
-    }
-
-    /* ─── Cards ─── */
-    .card {
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-    }
-
+    /* Cards */
+    .card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-sm); }
     .card-blue { border-top: 3px solid var(--blue-500); }
     .card-indigo { border-top: 3px solid var(--indigo-500); }
     .card-violet { border-top: 3px solid var(--violet-500); }
     .card-emerald { border-top: 3px solid var(--emerald-500); }
     .card-amber { border-top: 3px solid var(--amber-500); }
-
-    .card-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: 10px;
-    }
-
+    .card-title { font-size: 1rem; font-weight: 700; color: var(--gray-900); margin-bottom: 10px; }
     .card p { color: var(--gray-500); font-size: 0.95rem; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
-    /* ─── Grid ─── */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    /* ─── Architecture Diagrams ─── */
-    .arch-wrap {
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      padding: 32px 24px;
-      margin: 32px 0;
-      overflow-x: auto;
-    }
-
-    .arch-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      margin-bottom: 16px;
-    }
-
-    .arch-flow {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      min-width: 480px;
-    }
-
-    .arch-box {
-      flex: 1;
-      min-height: 80px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      padding: 12px 8px;
-      text-align: center;
-    }
-
-    .arch-box-name {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--gray-900);
-    }
-
-    .arch-box-sub {
-      font-size: 0.72rem;
-      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-      color: var(--gray-500);
-    }
-
-    .arch-arrow {
-      flex-shrink: 0;
-      width: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gray-300);
-      font-size: 1.3rem;
-    }
-
-    /* AE colors */
-    .box-input { background: var(--blue-50); border: 1.5px solid var(--blue-100); }
-    .box-encoder { background: var(--indigo-50); border: 1.5px solid #c7d2fe; }
-    .box-latent { background: var(--violet-50); border: 1.5px solid #ddd6fe; }
-    .box-decoder { background: var(--indigo-50); border: 1.5px solid #c7d2fe; }
+    /* Architecture */
+    .arch-wrap { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 32px 24px; margin: 32px 0; overflow-x: auto; }
+    .arch-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 16px; }
+    .arch-flow { display: flex; align-items: center; gap: 0; min-width: 480px; }
+    .arch-box { flex: 1; min-height: 80px; border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 12px 8px; text-align: center; }
+    .arch-box-name { font-size: 0.8rem; font-weight: 700; color: var(--gray-900); }
+    .arch-box-sub { font-size: 0.72rem; font-family: ui-monospace, Consolas, monospace; color: var(--gray-500); }
+    .arch-arrow { flex-shrink: 0; width: 40px; display: flex; align-items: center; justify-content: center; color: var(--gray-300); font-size: 1.3rem; }
+    .box-input  { background: var(--blue-50);    border: 1.5px solid var(--blue-100); }
+    .box-encoder{ background: var(--indigo-50);  border: 1.5px solid #c7d2fe; }
+    .box-latent { background: var(--violet-50);  border: 1.5px solid #ddd6fe; }
+    .box-decoder{ background: var(--indigo-50);  border: 1.5px solid #c7d2fe; }
     .box-output { background: var(--emerald-50); border: 1.5px solid #a7f3d0; }
-    .box-sample { background: var(--amber-50); border: 1.5px solid #fde68a; }
+    .box-sample { background: var(--amber-50);   border: 1.5px solid #fde68a; }
 
-    /* ─── Formula ─── */
+    /* Code blocks — pre で改行を保持 */
     .formula-block {
-      background: var(--gray-900);
-      color: #e2e8f0;
-      border-radius: var(--radius-sm);
-      padding: 20px 24px;
+      background: var(--gray-900); color: #e2e8f0;
+      border-radius: var(--radius-sm); padding: 20px 24px;
       font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-      font-size: 0.9rem;
-      line-height: 1.7;
-      margin: 20px 0;
-      overflow-x: auto;
+      font-size: 0.88rem; line-height: 1.75; margin: 20px 0;
+      overflow-x: auto; white-space: pre;
     }
-
-    .formula-block .comment { color: #6b7280; }
-    .formula-block .var { color: #93c5fd; }
+    .formula-block .cm { color: #6b7280; }
+    .formula-block .va { color: #93c5fd; }
     .formula-block .op { color: #f9a8d4; }
-    .formula-block .num { color: #86efac; }
+    .formula-block .nu { color: #86efac; }
+    .formula-block .kw { color: #fbbf24; }
 
-    /* ─── Inline code ─── */
-    code {
-      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-      font-size: 0.87em;
-      background: var(--gray-100);
-      color: var(--indigo-600);
-      padding: 0.1em 0.4em;
-      border-radius: 4px;
-    }
+    code { font-family: ui-monospace, Consolas, monospace; font-size: 0.87em; background: var(--gray-100); color: var(--indigo-600); padding: 0.1em 0.4em; border-radius: 4px; }
 
-    /* ─── Comparison Table ─── */
-    .compare-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-      box-shadow: var(--shadow-sm);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .compare-table thead tr {
-      background: var(--gray-900);
-      color: var(--white);
-    }
-
-    .compare-table th {
-      padding: 14px 20px;
-      text-align: left;
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 0.02em;
-    }
-
+    /* Table */
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; border-radius: var(--radius); overflow: hidden; }
+    .compare-table thead tr { background: var(--gray-900); color: var(--white); }
+    .compare-table th { padding: 14px 20px; text-align: left; font-weight: 600; font-size: 0.9rem; }
     .compare-table th:first-child { width: 22%; }
-
-    .compare-table td {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--gray-100);
-      vertical-align: top;
-      color: var(--gray-700);
-    }
-
+    .compare-table td { padding: 14px 20px; border-bottom: 1px solid var(--gray-100); vertical-align: top; color: var(--gray-700); }
     .compare-table tbody tr:last-child td { border-bottom: none; }
-
     .compare-table tbody tr:nth-child(even) td { background: var(--gray-50); }
-
     .compare-table tbody tr:hover td { background: var(--blue-50); transition: background 0.15s; }
-
     .compare-table .col-aspect { color: var(--gray-500); font-weight: 500; font-size: 0.9rem; }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.78rem;
-      font-weight: 600;
-    }
-
-    .tag-blue { background: var(--blue-50); color: var(--blue-600); }
-    .tag-violet { background: var(--violet-50); color: #7c3aed; }
+    .tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; }
+    .tag-blue    { background: var(--blue-50);    color: var(--blue-600); }
+    .tag-violet  { background: var(--violet-50);  color: #7c3aed; }
     .tag-emerald { background: var(--emerald-50); color: #059669; }
-    .tag-amber { background: var(--amber-50); color: #d97706; }
-    .tag-red { background: var(--red-50); color: #dc2626; }
+    .tag-amber   { background: var(--amber-50);   color: #d97706; }
+    .tag-red     { background: var(--red-50);     color: #dc2626; }
 
-    /* ─── Steps ─── */
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+    /* Steps */
+    .steps { display: flex; flex-direction: column; gap: 16px; }
+    .step { display: flex; gap: 16px; align-items: flex-start; }
+    .step-num { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--blue-600); color: var(--white); font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+    .step-body h4 { font-size: 0.95rem; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+    .step-body p { font-size: 0.9rem; color: var(--gray-500); margin: 0; }
 
-    .step {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .step-num {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--blue-600);
-      color: var(--white);
-      font-weight: 700;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 2px;
-    }
-
-    .step-body h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: 4px;
-    }
-
-    .step-body p {
-      font-size: 0.9rem;
-      color: var(--gray-500);
-      margin: 0;
-    }
-
-    /* ─── Callout ─── */
-    .callout {
-      border-radius: var(--radius-sm);
-      padding: 16px 20px;
-      margin: 20px 0;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .callout-blue { background: var(--blue-50); border-left: 4px solid var(--blue-500); }
-    .callout-amber { background: var(--amber-50); border-left: 4px solid var(--amber-500); }
-    .callout-indigo { background: var(--indigo-50); border-left: 4px solid var(--indigo-500); }
-    .callout-emerald { background: var(--emerald-50); border-left: 4px solid var(--emerald-500); }
-
+    /* Callout */
+    .callout { border-radius: var(--radius-sm); padding: 16px 20px; margin: 20px 0; display: flex; gap: 12px; align-items: flex-start; }
+    .callout-blue   { background: var(--blue-50);    border-left: 4px solid var(--blue-500); }
+    .callout-amber  { background: var(--amber-50);   border-left: 4px solid var(--amber-500); }
+    .callout-indigo { background: var(--indigo-50);  border-left: 4px solid var(--indigo-500); }
+    .callout-emerald{ background: var(--emerald-50); border-left: 4px solid var(--emerald-500); }
     .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
-
     .callout-body { font-size: 0.93rem; color: var(--gray-700); line-height: 1.7; }
-
     .callout-body strong { color: var(--gray-900); }
 
-    /* ─── Two-col with sticky image ─── */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-    }
+    /* Two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
 
-    /* ─── Use case pills ─── */
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
+    /* Pills */
+    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .pill { padding: 5px 14px; border-radius: 999px; font-size: 0.83rem; font-weight: 500; border: 1px solid var(--gray-200); background: var(--white); color: var(--gray-700); }
+    .pill-blue   { border-color: var(--blue-100);  background: var(--blue-50);   color: var(--blue-700); }
+    .pill-violet { border-color: #ddd6fe;           background: var(--violet-50); color: #6d28d9; }
 
-    .pill {
-      padding: 5px 14px;
-      border-radius: 999px;
-      font-size: 0.83rem;
-      font-weight: 500;
-      border: 1px solid var(--gray-200);
-      background: var(--white);
-      color: var(--gray-700);
-    }
-
-    .pill-blue { border-color: var(--blue-100); background: var(--blue-50); color: var(--blue-700); }
-    .pill-violet { border-color: #ddd6fe; background: var(--violet-50); color: #6d28d9; }
-
-    /* ─── Divider ─── */
-    .h-divider {
-      height: 1px;
-      background: var(--gray-100);
-      margin: 32px 0;
-    }
-
-    /* ─── Footer ─── */
-    footer {
-      background: var(--gray-900);
-      color: var(--gray-500);
-      padding: 40px 24px;
-      text-align: center;
-      font-size: 0.875rem;
-    }
-
-    footer a { color: var(--gray-300); text-decoration: none; }
-    footer a:hover { color: var(--white); }
-
-    .footer-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    /* ─── Responsive ─── */
-    @media (max-width: 768px) {
-      .grid-2, .grid-3, .two-col {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .section { padding: 48px 16px; }
-      .hero { padding: 56px 16px; }
-    }
-
-    /* ─── Smooth section highlight ─── */
-    :target { scroll-margin-top: 72px; }
-
-    /* ─── Inline list ─── */
-    ul.content-list {
-      padding-left: 1.2rem;
-      color: var(--gray-500);
-      font-size: 0.95rem;
-    }
-
+    .h-divider { height: 1px; background: var(--gray-100); margin: 32px 0; }
+    .section-alt { background: var(--gray-50); }
+    ul.content-list { padding-left: 1.2rem; color: var(--gray-500); font-size: 0.95rem; }
     ul.content-list li { margin-bottom: 6px; }
     ul.content-list li strong { color: var(--gray-900); }
+    :target { scroll-margin-top: 72px; }
 
-    /* ─── Section alt bg ─── */
-    .section-alt { background: var(--gray-50); }
+    /* ===== Interactive Demo ===== */
+    .demo-section { background: var(--white); }
+    .demo-wrap {
+      border: 1px solid var(--gray-200); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow);
+    }
+    .demo-tabs { display: flex; border-bottom: 1px solid var(--gray-200); background: var(--gray-50); }
+    .demo-tab {
+      padding: 12px 24px; font-size: 0.875rem; font-weight: 600; color: var(--gray-500);
+      cursor: pointer; border: none; background: none; transition: color 0.15s, background 0.15s;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+    }
+    .demo-tab.active { color: var(--blue-600); background: var(--white); border-bottom-color: var(--blue-600); }
+    .demo-tab:hover:not(.active) { color: var(--gray-700); background: var(--gray-100); }
+    .demo-panel { display: none; padding: 28px; }
+    .demo-panel.active { display: block; }
+    .demo-body { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; }
+
+    /* Sliders */
+    .control-group { display: flex; flex-direction: column; gap: 20px; }
+    .control-item label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--gray-700); margin-bottom: 6px; letter-spacing: 0.02em; }
+    .control-item .val { color: var(--blue-600); font-family: ui-monospace, monospace; }
+    input[type=range] {
+      width: 100%; height: 6px; border-radius: 999px;
+      -webkit-appearance: none; appearance: none;
+      background: var(--gray-200); outline: none; cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--blue-600); cursor: pointer; border: 2px solid var(--white);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .control-desc { font-size: 0.8rem; color: var(--gray-500); margin-top: 4px; line-height: 1.5; }
+    .demo-canvas-wrap { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 12px; }
+    canvas { display: block; width: 100%; border-radius: 6px; }
+    .demo-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+    .metric-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; padding: 12px 16px; text-align: center; }
+    .metric-label { font-size: 0.75rem; color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric-val { font-size: 1.4rem; font-weight: 800; color: var(--gray-900); font-family: ui-monospace, monospace; }
+    .metric-val.blue   { color: var(--blue-600); }
+    .metric-val.violet { color: #7c3aed; }
+    .metric-val.emerald{ color: #059669; }
+
+    /* Footer */
+    footer { background: var(--gray-900); color: var(--gray-500); padding: 40px 24px; text-align: center; font-size: 0.875rem; }
+    footer a { color: var(--gray-300); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .two-col { grid-template-columns: 1fr; gap: 16px; }
+      .section { padding: 48px 16px; }
+      .hero { padding: 56px 16px; }
+      .demo-body { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -569,6 +261,7 @@
       <li><a href="#vae">VAE</a></li>
       <li><a href="#reparam">Reparameterization</a></li>
       <li><a href="#compare">比較</a></li>
+      <li><a href="#interactive">インタラクティブ</a></li>
       <li><a href="#usecases">用途</a></li>
       <li><a href="#impl">実装の差</a></li>
     </ul>
@@ -592,58 +285,34 @@
   </div>
 </header>
 
-<!-- ===== Section 1: Autoencoder ===== -->
+<!-- Section 1: AE -->
 <section class="section" id="autoencoder">
   <div class="section-inner">
     <div class="section-header">
       <span class="section-eyebrow">Section 01</span>
       <h2 class="section-title">Autoencoder (AE) とは何か</h2>
-      <p class="section-lead">
-        入力を低次元の潜在空間に圧縮し、そこから元の入力を再構成することを学ぶニューラルネットワーク。
-        目的は「圧縮しても失われない特徴表現を得ること」。
-      </p>
+      <p class="section-lead">入力を低次元の潜在空間に圧縮し、そこから元の入力を再構成することを学ぶニューラルネットワーク。目的は「圧縮しても失われない特徴表現を得ること」。</p>
     </div>
-
-    <!-- Architecture diagram -->
     <div class="arch-wrap">
       <div class="arch-label">AE アーキテクチャ</div>
       <div class="arch-flow">
-        <div class="arch-box box-input">
-          <div class="arch-box-name">入力</div>
-          <div class="arch-box-sub">x ∈ ℝⁿ</div>
-        </div>
+        <div class="arch-box box-input"><div class="arch-box-name">入力</div><div class="arch-box-sub">x ∈ ℝⁿ</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-encoder">
-          <div class="arch-box-name">Encoder</div>
-          <div class="arch-box-sub">f_φ(x)</div>
-        </div>
+        <div class="arch-box box-encoder"><div class="arch-box-name">Encoder</div><div class="arch-box-sub">f_φ(x)</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-latent">
-          <div class="arch-box-name">潜在変数</div>
-          <div class="arch-box-sub">z ∈ ℝᵈ (d ≪ n)</div>
-        </div>
+        <div class="arch-box box-latent"><div class="arch-box-name">潜在変数</div><div class="arch-box-sub">z ∈ ℝᵈ (d ≪ n)</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-decoder">
-          <div class="arch-box-name">Decoder</div>
-          <div class="arch-box-sub">g_θ(z)</div>
-        </div>
+        <div class="arch-box box-decoder"><div class="arch-box-name">Decoder</div><div class="arch-box-sub">g_θ(z)</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-output">
-          <div class="arch-box-name">再構成</div>
-          <div class="arch-box-sub">x̂ ∈ ℝⁿ</div>
-        </div>
+        <div class="arch-box box-output"><div class="arch-box-name">再構成</div><div class="arch-box-sub">x̂ ∈ ℝⁿ</div></div>
       </div>
     </div>
-
-    <!-- Loss -->
     <h3 style="font-size:1.05rem;font-weight:700;color:var(--gray-900);margin-bottom:12px;">損失関数</h3>
-    <div class="formula-block">
-<span class="comment"># 画像など連続値 → MSE</span>
-<span class="var">L</span> <span class="op">=</span> <span class="op">||</span><span class="var">x</span> <span class="op">-</span> <span class="var">x̂</span><span class="op">||</span>² <span class="op">=</span> <span class="op">||</span><span class="var">x</span> <span class="op">-</span> <span class="var">g_θ</span>(<span class="var">f_φ</span>(<span class="var">x</span>))<span class="op">||</span>²
+    <pre class="formula-block"><span class="cm"># 連続値（画像など）→ MSE</span>
+<span class="va">L</span> <span class="op">=</span> ||<span class="va">x</span> <span class="op">-</span> <span class="va">x̂</span>||² <span class="op">=</span> ||<span class="va">x</span> <span class="op">-</span> <span class="va">g_θ</span>(<span class="va">f_φ</span>(<span class="va">x</span>))||²
 
-<span class="comment"># バイナリデータ → Binary Cross Entropy</span>
-<span class="var">L</span> <span class="op">=</span> <span class="op">-</span>Σ [ <span class="var">x</span> log(<span class="var">x̂</span>) <span class="op">+</span> (<span class="num">1</span><span class="op">-</span><span class="var">x</span>) log(<span class="num">1</span><span class="op">-</span><span class="var">x̂</span>) ]</div>
-
+<span class="cm"># バイナリデータ → Binary Cross Entropy</span>
+<span class="va">L</span> <span class="op">=</span> <span class="op">-</span>Σ [ <span class="va">x</span> log(<span class="va">x̂</span>) <span class="op">+</span> (<span class="nu">1</span><span class="op">-</span><span class="va">x</span>) log(<span class="nu">1</span><span class="op">-</span><span class="va">x̂</span>) ]</pre>
     <div class="grid-2" style="margin-top:24px;">
       <div class="card card-blue">
         <div class="card-title">AE が学ぶこと</div>
@@ -654,80 +323,47 @@
         <p>潜在空間が「穴だらけ」になりやすく、ランダムに <code>z</code> をサンプリングしても意味のある出力は得られません。生成モデルとしては不向きです。</p>
       </div>
     </div>
-
     <div class="callout callout-blue" style="margin-top:24px;">
       <div class="callout-icon">💡</div>
-      <div class="callout-body">
-        <strong>ボトルネック構造がポイント：</strong>
-        潜在次元 <code>d</code> を入力次元 <code>n</code> より小さく絞ることで、ネットワークは「本質的な特徴」だけを残す表現を学ばざるを得なくなります。
-      </div>
+      <div class="callout-body"><strong>ボトルネック構造がポイント：</strong> 潜在次元 <code>d</code> を入力次元 <code>n</code> より小さく絞ることで、ネットワークは「本質的な特徴」だけを残す表現を学ばざるを得なくなります。</div>
     </div>
   </div>
 </section>
 
-<!-- ===== Section 2: VAE ===== -->
+<!-- Section 2: VAE -->
 <section class="section section-alt" id="vae">
   <div class="section-inner">
     <div class="section-header">
       <span class="section-eyebrow">Section 02</span>
       <h2 class="section-title">Variational Autoencoder (VAE) とは何か</h2>
-      <p class="section-lead">
-        潜在変数を「点」ではなく「確率分布」として扱うことで、滑らかに構造化された潜在空間を獲得するモデル。
-        生成モデルとしても機能します。
-      </p>
+      <p class="section-lead">潜在変数を「点」ではなく「確率分布」として扱うことで、滑らかに構造化された潜在空間を獲得するモデル。生成モデルとしても機能します。</p>
     </div>
-
-    <!-- Architecture diagram -->
     <div class="arch-wrap">
       <div class="arch-label">VAE アーキテクチャ</div>
       <div class="arch-flow">
-        <div class="arch-box box-input">
-          <div class="arch-box-name">入力</div>
-          <div class="arch-box-sub">x</div>
-        </div>
+        <div class="arch-box box-input"><div class="arch-box-name">入力</div><div class="arch-box-sub">x</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-encoder">
-          <div class="arch-box-name">Encoder</div>
-          <div class="arch-box-sub">μ(x), logσ²(x)</div>
-        </div>
+        <div class="arch-box box-encoder"><div class="arch-box-name">Encoder</div><div class="arch-box-sub">μ(x), logσ²(x)</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-sample">
-          <div class="arch-box-name">Sample</div>
-          <div class="arch-box-sub">z = μ + σε</div>
-        </div>
+        <div class="arch-box box-sample"><div class="arch-box-name">Sample</div><div class="arch-box-sub">z = μ + σε</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-decoder">
-          <div class="arch-box-name">Decoder</div>
-          <div class="arch-box-sub">p(x|z)</div>
-        </div>
+        <div class="arch-box box-decoder"><div class="arch-box-name">Decoder</div><div class="arch-box-sub">p(x|z)</div></div>
         <div class="arch-arrow">→</div>
-        <div class="arch-box box-output">
-          <div class="arch-box-name">再構成</div>
-          <div class="arch-box-sub">x̂</div>
-        </div>
+        <div class="arch-box box-output"><div class="arch-box-name">再構成</div><div class="arch-box-sub">x̂</div></div>
       </div>
     </div>
-
-    <!-- ELBO -->
     <h3 style="font-size:1.05rem;font-weight:700;color:var(--gray-900);margin-bottom:12px;">損失関数 — ELBO の最大化</h3>
-    <div class="formula-block">
-<span class="comment"># ELBO (Evidence Lower Bound) を最大化 ＝ 負の ELBO を最小化</span>
-<span class="var">L</span> <span class="op">=</span> <span class="op">-</span>ELBO
-  <span class="op">=</span> <span class="var">L_recon</span> <span class="op">+</span> <span class="var">L_KL</span>
-  <span class="op">=</span> <span class="op">-</span>E[log <span class="var">p_θ</span>(<span class="var">x</span>|<span class="var">z</span>)] <span class="op">+</span> D_KL(<span class="var">q_φ</span>(<span class="var">z</span>|<span class="var">x</span>) || <span class="var">N</span>(<span class="num">0</span>, <span class="var">I</span>))
+    <pre class="formula-block"><span class="cm"># ELBO (Evidence Lower Bound) を最大化 ＝ 負の ELBO を最小化</span>
+<span class="va">L</span> <span class="op">=</span> <span class="op">-</span>ELBO
+  <span class="op">=</span> <span class="va">L_recon</span> <span class="op">+</span> <span class="va">L_KL</span>
+  <span class="op">=</span> <span class="op">-</span>E[log <span class="va">p_θ</span>(<span class="va">x</span>|<span class="va">z</span>)] <span class="op">+</span> D_KL(<span class="va">q_φ</span>(<span class="va">z</span>|<span class="va">x</span>) || <span class="va">N</span>(<span class="nu">0</span>, <span class="va">I</span>))
 
-<span class="comment"># KL 項の解析解（正規分布同士）</span>
-<span class="var">L_KL</span> <span class="op">=</span> <span class="op">-</span><span class="num">0.5</span> <span class="op">*</span> Σ ( <span class="num">1</span> <span class="op">+</span> logσ² <span class="op">-</span> μ² <span class="op">-</span> σ² )</div>
-
+<span class="cm"># KL 項の解析解（正規分布同士）</span>
+<span class="va">L_KL</span> <span class="op">=</span> <span class="op">-</span><span class="nu">0.5</span> <span class="op">*</span> Σ ( <span class="nu">1</span> <span class="op">+</span> logσ² <span class="op">-</span> μ² <span class="op">-</span> σ² )</pre>
     <div class="callout callout-indigo">
       <div class="callout-icon">📐</div>
-      <div class="callout-body">
-        <strong>KL Divergence の役割：</strong>
-        各データ点の潜在分布 <code>q(z|x)</code> を標準正規分布 <code>N(0, I)</code> に近づける罰則です。
-        これにより潜在空間が整えられ、ランダムサンプリングが可能になります。
-      </div>
+      <div class="callout-body"><strong>KL Divergence の役割：</strong> 各データ点の潜在分布 <code>q(z|x)</code> を標準正規分布 <code>N(0, I)</code> に近づける罰則です。これにより潜在空間が整えられ、ランダムサンプリングが可能になります。</div>
     </div>
-
     <div class="grid-2" style="margin-top:24px;">
       <div class="card card-indigo">
         <div class="card-title">VAE が学ぶこと</div>
@@ -741,163 +377,91 @@
   </div>
 </section>
 
-<!-- ===== Section 3: Reparameterization ===== -->
+<!-- Section 3: Reparameterization -->
 <section class="section" id="reparam">
   <div class="section-inner">
     <div class="section-header">
       <span class="section-eyebrow">Section 03</span>
       <h2 class="section-title">Reparameterization Trick</h2>
-      <p class="section-lead">
-        確率的サンプリングを挟みながら逆伝播を可能にする、VAE の核心テクニック。
-      </p>
+      <p class="section-lead">確率的サンプリングを挟みながら逆伝播を可能にする、VAE の核心テクニック。</p>
     </div>
-
     <div class="two-col">
       <div>
         <h3 style="font-size:1rem;font-weight:700;color:var(--gray-900);margin-bottom:16px;">なぜ必要か</h3>
-        <p style="color:var(--gray-500);font-size:0.95rem;margin-bottom:16px;">
-          ナイーブに <code>z ~ q(z|x)</code> とサンプリングすると、その操作は微分不可能になり、
-          Encoder の重みに勾配が流れません。
-        </p>
-
+        <p style="color:var(--gray-500);font-size:0.95rem;margin-bottom:16px;">ナイーブに <code>z ~ q(z|x)</code> とサンプリングすると、その操作は微分不可能になり、Encoder の重みに勾配が流れません。</p>
         <div class="callout callout-amber">
           <div class="callout-icon">⚠️</div>
-          <div class="callout-body">
-            <strong>問題：</strong> サンプリング操作は決定論的でないため、そのままでは <code>∂z/∂φ</code> が計算できません。
-          </div>
+          <div class="callout-body"><strong>問題：</strong> サンプリング操作は決定論的でないため、そのままでは <code>∂z/∂φ</code> が計算できません。</div>
         </div>
-
         <h3 style="font-size:1rem;font-weight:700;color:var(--gray-900);margin:24px 0 12px;">解決策</h3>
-        <div class="formula-block">
-<span class="comment"># ε を「外から入れる」乱数として分離</span>
-<span class="var">ε</span> ~ N(<span class="num">0</span>, <span class="var">I</span>)      <span class="comment"># 微分不要な乱数</span>
-<span class="var">z</span> <span class="op">=</span> <span class="var">μ</span> <span class="op">+</span> <span class="var">σ</span> <span class="op">⊙</span> <span class="var">ε</span>  <span class="comment"># μ と σ には勾配が流れる</span></div>
-
-        <p style="color:var(--gray-500);font-size:0.95rem;">
-          乱数 <code>ε</code> を外から注入することで、<code>z</code> の計算グラフを <code>μ, σ</code> に対して微分可能な形に変換します。
-        </p>
+        <pre class="formula-block"><span class="cm"># ε を「外から入れる」乱数として分離</span>
+<span class="va">ε</span> ~ N(<span class="nu">0</span>, <span class="va">I</span>)      <span class="cm"># 微分不要な乱数</span>
+<span class="va">z</span> <span class="op">=</span> <span class="va">μ</span> <span class="op">+</span> <span class="va">σ</span> <span class="op">⊙</span> <span class="va">ε</span>  <span class="cm"># μ と σ には勾配が流れる</span></pre>
+        <p style="color:var(--gray-500);font-size:0.95rem;">乱数 <code>ε</code> を外から注入することで、<code>z</code> の計算グラフを <code>μ, σ</code> に対して微分可能な形に変換します。</p>
       </div>
-
       <div>
         <div class="card" style="padding:28px;">
           <div class="card-title" style="margin-bottom:16px;">Before vs After</div>
           <div style="margin-bottom:20px;">
             <div style="font-size:0.8rem;font-weight:600;color:var(--red-500);margin-bottom:8px;">❌ ナイーブな方法（逆伝播不可）</div>
-            <div style="background:var(--red-50);border:1px solid #fecaca;border-radius:8px;padding:14px;font-family:monospace;font-size:0.85rem;">
-              z = sample(μ(x), σ(x))<br>
-              <span style="color:#ef4444;">← 勾配が μ, σ に届かない</span>
-            </div>
+            <pre style="background:var(--red-50);border:1px solid #fecaca;border-radius:8px;padding:14px;font-family:monospace;font-size:0.85rem;white-space:pre-wrap;">z = sample(μ(x), σ(x))
+<span style="color:#ef4444;">← 勾配が μ, σ に届かない</span></pre>
           </div>
           <div>
             <div style="font-size:0.8rem;font-weight:600;color:var(--emerald-500);margin-bottom:8px;">✅ Reparameterization（逆伝播可能）</div>
-            <div style="background:var(--emerald-50);border:1px solid #a7f3d0;border-radius:8px;padding:14px;font-family:monospace;font-size:0.85rem;">
-              ε ~ N(0, I)<br>
-              z = μ(x) + σ(x) ⊙ ε<br>
-              <span style="color:#059669;">← μ と σ に勾配が流れる</span>
-            </div>
+            <pre style="background:var(--emerald-50);border:1px solid #a7f3d0;border-radius:8px;padding:14px;font-family:monospace;font-size:0.85rem;white-space:pre-wrap;">ε ~ N(0, I)
+z = μ(x) + σ(x) ⊙ ε
+<span style="color:#059669;">← μ と σ に勾配が流れる</span></pre>
           </div>
         </div>
-
         <div class="callout callout-emerald" style="margin-top:20px;">
           <div class="callout-icon">✅</div>
-          <div class="callout-body">
-            <strong>ポイント：</strong> 確率性（ランダム性）を <code>ε</code> に押し込み、学習可能なパラメータ <code>μ, σ</code> だけに勾配を流すのがこのトリックの本質です。
-          </div>
+          <div class="callout-body"><strong>ポイント：</strong> 確率性を <code>ε</code> に押し込み、学習可能な <code>μ, σ</code> にだけ勾配を流すのがこのトリックの本質です。</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== Section 4: Comparison ===== -->
+<!-- Section 4: Compare -->
 <section class="section section-alt" id="compare">
   <div class="section-inner">
     <div class="section-header">
       <span class="section-eyebrow">Section 04</span>
       <h2 class="section-title">AE と VAE の比較</h2>
-      <p class="section-lead">
-        構造・損失・潜在空間・生成能力の観点から両者の違いを整理します。
-      </p>
+      <p class="section-lead">構造・損失・潜在空間・生成能力の観点から両者の違いを整理します。</p>
     </div>
-
     <div style="overflow-x:auto;border-radius:var(--radius);box-shadow:var(--shadow);">
       <table class="compare-table">
         <thead>
-          <tr>
-            <th>観点</th>
-            <th>Autoencoder (AE)</th>
-            <th>Variational Autoencoder (VAE)</th>
-          </tr>
+          <tr><th>観点</th><th>Autoencoder (AE)</th><th>Variational Autoencoder (VAE)</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="col-aspect">Encoder の出力</td>
-            <td>潜在ベクトル <code>z</code> を直接出力</td>
-            <td>分布パラメータ <code>μ</code>, <code>logσ²</code> を出力</td>
-          </tr>
-          <tr>
-            <td class="col-aspect">潜在変数の扱い</td>
-            <td>決定論的な点推定 <tag class="tag tag-blue">点</tag></td>
-            <td>確率分布からのサンプリング <tag class="tag tag-violet">分布</tag></td>
-          </tr>
-          <tr>
-            <td class="col-aspect">損失関数</td>
-            <td>再構成誤差のみ<br><code>||x - x̂||²</code></td>
-            <td>再構成誤差 + KL Divergence<br><code>L_recon + D_KL(q || N(0,I))</code></td>
-          </tr>
-          <tr>
-            <td class="col-aspect">潜在空間の構造</td>
-            <td>制約なし・不連続になりやすい</td>
-            <td>標準正規分布に近い連続的な空間</td>
-          </tr>
-          <tr>
-            <td class="col-aspect">生成能力</td>
-            <td><span class="tag tag-red">弱い</span> — ランダム z は意味不明な出力</td>
-            <td><span class="tag tag-emerald">強い</span> — N(0,I) からサンプリングで生成可</td>
-          </tr>
-          <tr>
-            <td class="col-aspect">再構成の鋭さ</td>
-            <td>シャープ（点推定のため）</td>
-            <td>やや曖昧（確率的サンプリングのため）</td>
-          </tr>
-          <tr>
-            <td class="col-aspect">潜在空間の補間</td>
-            <td>ギャップがあり不自然になりやすい</td>
-            <td>滑らかで自然な補間が可能</td>
-          </tr>
-          <tr>
-            <td class="col-aspect">学習の安定性</td>
-            <td>シンプルで安定しやすい</td>
-            <td>KL/recon のバランス調整が必要</td>
-          </tr>
-          <tr>
-            <td class="col-aspect">理論的根拠</td>
-            <td>経験的な損失最小化</td>
-            <td>変分推論（ELBO の最大化）</td>
-          </tr>
+          <tr><td class="col-aspect">Encoder の出力</td><td>潜在ベクトル <code>z</code> を直接出力</td><td>分布パラメータ <code>μ</code>, <code>logσ²</code> を出力</td></tr>
+          <tr><td class="col-aspect">潜在変数の扱い</td><td>決定論的な点推定 <span class="tag tag-blue">点</span></td><td>確率分布からのサンプリング <span class="tag tag-violet">分布</span></td></tr>
+          <tr><td class="col-aspect">損失関数</td><td>再構成誤差のみ<br><code>||x - x̂||²</code></td><td>再構成誤差 + KL Divergence<br><code>L_recon + D_KL(q || N(0,I))</code></td></tr>
+          <tr><td class="col-aspect">潜在空間の構造</td><td>制約なし・不連続になりやすい</td><td>標準正規分布に近い連続的な空間</td></tr>
+          <tr><td class="col-aspect">生成能力</td><td><span class="tag tag-red">弱い</span> — ランダム z は意味不明な出力</td><td><span class="tag tag-emerald">強い</span> — N(0,I) からサンプリングで生成可</td></tr>
+          <tr><td class="col-aspect">再構成の鋭さ</td><td>シャープ（点推定のため）</td><td>やや曖昧（確率的サンプリングのため）</td></tr>
+          <tr><td class="col-aspect">潜在空間の補間</td><td>ギャップがあり不自然になりやすい</td><td>滑らかで自然な補間が可能</td></tr>
+          <tr><td class="col-aspect">学習の安定性</td><td>シンプルで安定しやすい</td><td>KL/recon のバランス調整が必要</td></tr>
+          <tr><td class="col-aspect">理論的根拠</td><td>経験的な損失最小化</td><td>変分推論（ELBO の最大化）</td></tr>
         </tbody>
       </table>
     </div>
-
-    <!-- Visual summary -->
     <div class="grid-2" style="margin-top:32px;">
       <div class="card card-blue" style="padding:28px;">
         <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;color:var(--blue-600);text-transform:uppercase;margin-bottom:12px;">AE の潜在空間イメージ</div>
         <svg viewBox="0 0 260 160" width="100%" style="max-height:140px;">
-          <!-- AE: scattered clusters with gaps -->
           <rect width="260" height="160" fill="#f0f9ff" rx="8"/>
-          <!-- Cluster 1 -->
           <circle cx="40" cy="40" r="18" fill="#93c5fd" opacity="0.6"/>
           <circle cx="48" cy="35" r="5" fill="#3b82f6" opacity="0.8"/>
           <circle cx="35" cy="48" r="4" fill="#3b82f6" opacity="0.8"/>
-          <!-- Cluster 2 -->
           <circle cx="200" cy="120" r="20" fill="#c4b5fd" opacity="0.6"/>
           <circle cx="192" cy="115" r="5" fill="#7c3aed" opacity="0.8"/>
           <circle cx="205" cy="128" r="4" fill="#7c3aed" opacity="0.8"/>
-          <!-- Cluster 3 -->
           <circle cx="180" cy="35" r="15" fill="#86efac" opacity="0.6"/>
           <circle cx="178" cy="30" r="4" fill="#059669" opacity="0.8"/>
-          <!-- Gap indicator -->
           <text x="105" y="90" font-size="11" fill="#94a3b8" text-anchor="middle">空白地帯（穴）</text>
           <line x1="70" y1="60" x2="165" y2="100" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="4,3"/>
           <text x="130" y="20" font-size="10" fill="#6b7280" text-anchor="middle">不連続・構造なし</text>
@@ -906,14 +470,11 @@
       <div class="card card-indigo" style="padding:28px;">
         <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;color:var(--indigo-600);text-transform:uppercase;margin-bottom:12px;">VAE の潜在空間イメージ</div>
         <svg viewBox="0 0 260 160" width="100%" style="max-height:140px;">
-          <!-- VAE: smooth gaussian distribution -->
           <rect width="260" height="160" fill="#eef2ff" rx="8"/>
-          <!-- Gaussian blob rings -->
           <ellipse cx="130" cy="80" rx="105" ry="65" fill="#c7d2fe" opacity="0.3"/>
           <ellipse cx="130" cy="80" rx="75" ry="48" fill="#a5b4fc" opacity="0.35"/>
           <ellipse cx="130" cy="80" rx="48" ry="30" fill="#818cf8" opacity="0.35"/>
           <ellipse cx="130" cy="80" rx="22" ry="14" fill="#6366f1" opacity="0.5"/>
-          <!-- Dots -->
           <circle cx="100" cy="68" r="3" fill="#4f46e5" opacity="0.7"/>
           <circle cx="155" cy="90" r="3" fill="#4f46e5" opacity="0.7"/>
           <circle cx="130" cy="60" r="3" fill="#4f46e5" opacity="0.7"/>
@@ -925,24 +486,175 @@
   </div>
 </section>
 
-<!-- ===== Section 5: Use Cases ===== -->
-<section class="section" id="usecases">
+<!-- ===== Section 5: Interactive Demo ===== -->
+<section class="section demo-section" id="interactive">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-eyebrow">Section 05</span>
-      <h2 class="section-title">どちらを選ぶべきか</h2>
-      <p class="section-lead">
-        タスクの目的によって AE と VAE のどちらが適切かが変わります。
-      </p>
+      <span class="section-eyebrow">Section 05 — Interactive</span>
+      <h2 class="section-title">パラメータを変えて挙動を観察する</h2>
+      <p class="section-lead">スライダーを動かすと潜在空間の変化をリアルタイムでシミュレーションできます。</p>
     </div>
 
+    <div class="demo-wrap">
+      <div class="demo-tabs">
+        <button class="demo-tab active" onclick="switchTab('latent')">潜在空間の構造 (β)</button>
+        <button class="demo-tab" onclick="switchTab('dim')">潜在次元の効果</button>
+        <button class="demo-tab" onclick="switchTab('interp')">潜在空間の補間</button>
+      </div>
+
+      <!-- Tab 1: β / KL weight -->
+      <div id="tab-latent" class="demo-panel active">
+        <div class="demo-body">
+          <div class="control-group">
+            <div class="control-item">
+              <label>β (KL 重み) = <span class="val" id="beta-val">1.0</span></label>
+              <input type="range" id="beta-slider" min="0" max="5" step="0.1" value="1.0" oninput="updateLatentDemo()">
+              <div class="control-desc">β=0 → AE に近い（KL なし）<br>β=1 → 標準 VAE<br>β>1 → β-VAE（よりコンパクトな潜在空間）</div>
+            </div>
+            <div class="control-item">
+              <label>クラス数 = <span class="val" id="class-val">5</span></label>
+              <input type="range" id="class-slider" min="2" max="10" step="1" value="5" oninput="updateLatentDemo()">
+              <div class="control-desc">データのクラス（色）の数を変えます。</div>
+            </div>
+            <div class="control-item">
+              <label>データ点数 = <span class="val" id="npts-val">200</span></label>
+              <input type="range" id="npts-slider" min="50" max="500" step="50" value="200" oninput="updateLatentDemo()">
+              <div class="control-desc">各クラスの点の数です。</div>
+            </div>
+          </div>
+          <div>
+            <div class="demo-canvas-wrap">
+              <canvas id="canvas-latent" width="600" height="400"></canvas>
+            </div>
+            <div class="demo-metrics">
+              <div class="metric-card">
+                <div class="metric-label">Recon Loss</div>
+                <div class="metric-val blue" id="m-recon">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">KL Loss</div>
+                <div class="metric-val violet" id="m-kl">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Total Loss</div>
+                <div class="metric-val emerald" id="m-total">—</div>
+              </div>
+            </div>
+            <div class="callout callout-blue" style="margin-top:16px;">
+              <div class="callout-icon">👁</div>
+              <div class="callout-body" id="beta-hint">β = 1.0 → 標準 VAE。クラスのクラスタが標準正規分布の範囲に収まっています。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Latent Dimension -->
+      <div id="tab-dim" class="demo-panel">
+        <div class="demo-body">
+          <div class="control-group">
+            <div class="control-item">
+              <label>潜在次元 d = <span class="val" id="dim-val">8</span></label>
+              <input type="range" id="dim-slider" min="1" max="64" step="1" value="8" oninput="updateDimDemo()">
+              <div class="control-desc">d が小さい → 強い圧縮、高い再構成誤差<br>d が大きい → 緩い圧縮、低い再構成誤差</div>
+            </div>
+            <div class="control-item">
+              <label>入力次元 n = <span class="val" id="indim-val">784</span></label>
+              <input type="range" id="indim-slider" min="64" max="3072" step="64" value="784" oninput="updateDimDemo()">
+              <div class="control-desc">例: 784 = MNIST (28×28), 3072 = CIFAR-10 (32×32×3)</div>
+            </div>
+          </div>
+          <div>
+            <div class="demo-canvas-wrap">
+              <canvas id="canvas-dim" width="600" height="400"></canvas>
+            </div>
+            <div class="demo-metrics">
+              <div class="metric-card">
+                <div class="metric-label">圧縮率</div>
+                <div class="metric-val blue" id="m-ratio">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">推定 Recon 誤差</div>
+                <div class="metric-val violet" id="m-dimrecon">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">情報保持率</div>
+                <div class="metric-val emerald" id="m-info">—</div>
+              </div>
+            </div>
+            <div class="callout callout-indigo" style="margin-top:16px;">
+              <div class="callout-icon">📊</div>
+              <div class="callout-body" id="dim-hint">潜在次元を大きくすると再構成品質が向上しますが、潜在空間の構造化・生成能力は下がる傾向があります。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Interpolation -->
+      <div id="tab-interp" class="demo-panel">
+        <div class="demo-body">
+          <div class="control-group">
+            <div class="control-item">
+              <label>補間位置 α = <span class="val" id="alpha-val">0.50</span></label>
+              <input type="range" id="alpha-slider" min="0" max="1" step="0.01" value="0.5" oninput="updateInterpDemo()">
+              <div class="control-desc">α=0 → 点 A、α=1 → 点 B<br>AE は途中で飛躍があり、VAE は滑らか</div>
+            </div>
+            <div class="control-item">
+              <label>補間方式</label>
+              <div style="display:flex;gap:8px;margin-top:6px;">
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:400;cursor:pointer;">
+                  <input type="radio" name="interp-mode" value="linear" checked onchange="updateInterpDemo()"> 線形補間
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:400;cursor:pointer;">
+                  <input type="radio" name="interp-mode" value="slerp" onchange="updateInterpDemo()"> 球面補間 (SLERP)
+                </label>
+              </div>
+              <div class="control-desc" style="margin-top:8px;">球面補間は高次元の潜在空間でより自然な補間になります。</div>
+            </div>
+          </div>
+          <div>
+            <div class="demo-canvas-wrap">
+              <canvas id="canvas-interp" width="600" height="400"></canvas>
+            </div>
+            <div class="demo-metrics">
+              <div class="metric-card">
+                <div class="metric-label">AE 空白率</div>
+                <div class="metric-val blue" id="m-ae-gap">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">VAE 連続性</div>
+                <div class="metric-val emerald" id="m-vae-cont">—</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">補間品質</div>
+                <div class="metric-val violet" id="m-interp-q">—</div>
+              </div>
+            </div>
+            <div class="callout callout-blue" style="margin-top:16px;">
+              <div class="callout-icon">🔀</div>
+              <div class="callout-body" id="interp-hint">α = 0.50 — 中間点。VAE では自然なサンプルが得られますが、AE では「空白地帯」に落ちる可能性があります。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: Use Cases -->
+<section class="section section-alt" id="usecases">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-eyebrow">Section 06</span>
+      <h2 class="section-title">どちらを選ぶべきか</h2>
+      <p class="section-lead">タスクの目的によって AE と VAE のどちらが適切かが変わります。</p>
+    </div>
     <div class="grid-2">
       <div class="card card-blue" style="padding:28px;">
         <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;color:var(--blue-600);text-transform:uppercase;margin-bottom:14px;">AE を選ぶ場面</div>
         <ul class="content-list">
           <li><strong>次元削減・圧縮</strong> — 高次元データをコンパクトに表現したい</li>
           <li><strong>異常検知</strong> — 正常データの再構成誤差を基準にする</li>
-          <li><strong>ノイズ除去</strong> — 入力にノイズ、出力にクリーンな画像（Denoising AE）</li>
+          <li><strong>ノイズ除去</strong> — Denoising AE（入力にノイズ、出力にクリーン）</li>
           <li><strong>特徴抽出の前処理</strong> — 下流タスク用の特徴表現として</li>
           <li><strong>シンプルさ優先</strong> — 実装・チューニングが容易</li>
         </ul>
@@ -953,7 +665,6 @@
           <span class="pill pill-blue">Denoising</span>
         </div>
       </div>
-
       <div class="card card-indigo" style="padding:28px;">
         <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;color:var(--indigo-600);text-transform:uppercase;margin-bottom:14px;">VAE を選ぶ場面</div>
         <ul class="content-list">
@@ -971,144 +682,90 @@
         </div>
       </div>
     </div>
-
     <div class="callout callout-blue" style="margin-top:28px;">
       <div class="callout-icon">🎯</div>
-      <div class="callout-body">
-        <strong>一言まとめ：</strong>
-        「忠実に圧縮・再構成したい」なら AE。「新しいデータを生成したい・潜在空間を探索したい」なら VAE。
-      </div>
+      <div class="callout-body"><strong>一言まとめ：</strong>「忠実に圧縮・再構成したい」なら AE。「新しいデータを生成したい・潜在空間を探索したい」なら VAE。</div>
     </div>
   </div>
 </section>
 
-<!-- ===== Section 6: Implementation Diff ===== -->
-<section class="section section-alt" id="impl">
+<!-- Section 7: Impl -->
+<section class="section" id="impl">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-eyebrow">Section 06</span>
+      <span class="section-eyebrow">Section 07</span>
       <h2 class="section-title">実装で何が変わるか</h2>
-      <p class="section-lead">
-        AE を VAE に変えるために必要な変更は 4 ステップだけです。
-      </p>
+      <p class="section-lead">AE を VAE に変えるために必要な変更は 4 ステップだけです。</p>
     </div>
-
     <div class="two-col">
       <div>
         <div class="steps">
-          <div class="step">
-            <div class="step-num">1</div>
-            <div class="step-body">
-              <h4>Encoder の出力を 2 本に分ける</h4>
-              <p><code>z</code> を直接返す代わりに <code>mu</code> と <code>logvar</code> を返します。</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div class="step-body">
-              <h4>Reparameterization を実装する</h4>
-              <p><code>z = mu + eps * std</code> の形でサンプリングします。</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div class="step-body">
-              <h4>損失関数に KL 項を追加する</h4>
-              <p>再構成誤差だけでなく KL Divergence を合計します。</p>
-            </div>
-          </div>
-          <div class="step">
-            <div class="step-num">4</div>
-            <div class="step-body">
-              <h4>評価方法を変える</h4>
-              <p>再構成品質だけでなく、ランダムサンプリングの品質も見ます。</p>
-            </div>
-          </div>
+          <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Encoder の出力を 2 本に分ける</h4><p><code>z</code> を直接返す代わりに <code>mu</code> と <code>logvar</code> を返します。</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Reparameterization を実装する</h4><p><code>z = mu + eps * std</code> の形でサンプリングします。</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-body"><h4>損失関数に KL 項を追加する</h4><p>再構成誤差だけでなく KL Divergence を合計します。</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-body"><h4>評価方法を変える</h4><p>再構成品質だけでなく、ランダムサンプリングの品質も見ます。</p></div></div>
         </div>
       </div>
-
       <div>
-        <h3 style="font-size:0.85rem;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">AE → VAE の変更点（PyTorch）</h3>
-        <div class="formula-block" style="font-size:0.83rem;line-height:1.8;">
-<span class="comment">## AE の Encoder</span>
-<span class="var">def</span> forward(self, x):
-    z <span class="op">=</span> self.encoder(x)        <span class="comment"># 点推定</span>
+        <div style="font-size:0.85rem;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">AE → VAE の変更点（PyTorch）</div>
+        <pre class="formula-block"><span class="cm">## AE の Encoder</span>
+<span class="kw">def</span> forward(self, x):
+    z <span class="op">=</span> self.encoder(x)        <span class="cm"># 点推定</span>
     x_hat <span class="op">=</span> self.decoder(z)
-    <span class="var">return</span> x_hat
+    <span class="kw">return</span> x_hat
 
-<span class="comment">## VAE の Encoder（変更点）</span>
-<span class="var">def</span> encode(self, x):
+<span class="cm">## VAE の Encoder（変更点）</span>
+<span class="kw">def</span> encode(self, x):
     h <span class="op">=</span> self.encoder(x)
-    mu <span class="op">=</span> self.fc_mu(h)          <span class="comment"># ① μ を出力</span>
-    logvar <span class="op">=</span> self.fc_logvar(h)  <span class="comment"># ① logσ² を出力</span>
-    <span class="var">return</span> mu, logvar
+    mu <span class="op">=</span> self.fc_mu(h)          <span class="cm"># ① μ を出力</span>
+    logvar <span class="op">=</span> self.fc_logvar(h)  <span class="cm"># ① logσ² を出力</span>
+    <span class="kw">return</span> mu, logvar
 
-<span class="var">def</span> reparameterize(self, mu, logvar):
-    std <span class="op">=</span> torch.exp(<span class="num">0.5</span> <span class="op">*</span> logvar)
-    eps <span class="op">=</span> torch.randn_like(std)  <span class="comment"># ② ε をサンプリング</span>
-    <span class="var">return</span> mu <span class="op">+</span> eps <span class="op">*</span> std          <span class="comment"># ② z = μ + σε</span>
+<span class="kw">def</span> reparameterize(self, mu, logvar):
+    std <span class="op">=</span> torch.exp(<span class="nu">0.5</span> <span class="op">*</span> logvar)
+    eps <span class="op">=</span> torch.randn_like(std)  <span class="cm"># ② ε をサンプリング</span>
+    <span class="kw">return</span> mu <span class="op">+</span> eps <span class="op">*</span> std          <span class="cm"># ② z = μ + σε</span>
 
-<span class="comment">## VAE の損失（変更点）</span>
+<span class="cm">## VAE の損失（変更点）</span>
 recon_loss <span class="op">=</span> F.mse_loss(x_hat, x)
-kl_loss <span class="op">=</span> <span class="op">-</span><span class="num">0.5</span> <span class="op">*</span> torch.mean(         <span class="comment"># ③ KL 項</span>
-    <span class="num">1</span> <span class="op">+</span> logvar <span class="op">-</span> mu<span class="op">**</span><span class="num">2</span> <span class="op">-</span> logvar.exp()
+kl_loss <span class="op">=</span> <span class="op">-</span><span class="nu">0.5</span> <span class="op">*</span> torch.mean(         <span class="cm"># ③ KL 項</span>
+    <span class="nu">1</span> <span class="op">+</span> logvar <span class="op">-</span> mu<span class="op">**</span><span class="nu">2</span> <span class="op">-</span> logvar.exp()
 )
-loss <span class="op">=</span> recon_loss <span class="op">+</span> kl_loss</div>
+loss <span class="op">=</span> recon_loss <span class="op">+</span> beta <span class="op">*</span> kl_loss</pre>
       </div>
     </div>
-
     <div class="callout callout-amber" style="margin-top:32px;">
       <div class="callout-icon">📁</div>
       <div class="callout-body">
         <strong>このリポジトリの参考ファイル：</strong>
-        <code>autoencoder.ipynb</code> — AE の実装例　／
-        <code>compare_ae_vae.ipynb</code> — AE と VAE の比較実験　／
-        <code>ae_vae_textbook.html</code> — 教科書的な整理
+        <a href="autoencoder.ipynb" style="color:var(--blue-600);">autoencoder.ipynb</a> — AE の実装例 ／
+        <a href="compare_ae_vae.ipynb" style="color:var(--blue-600);">compare_ae_vae.ipynb</a> — AE と VAE の比較実験 ／
+        <a href="ae_vae_textbook.html" style="color:var(--blue-600);">ae_vae_textbook.html</a> — 教科書的な整理
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== Section 7: Summary ===== -->
-<section class="section" id="summary">
+<!-- Section 8: Summary -->
+<section class="section section-alt" id="summary">
   <div class="section-inner">
     <div class="section-header">
-      <span class="section-eyebrow">Section 07</span>
+      <span class="section-eyebrow">Section 08</span>
       <h2 class="section-title">まとめ</h2>
     </div>
-
     <div class="grid-3">
-      <div class="card card-blue" style="padding:24px;">
-        <div style="font-size:1.5rem;margin-bottom:12px;">🗜️</div>
-        <div class="card-title">AE = 圧縮器</div>
-        <p>うまく圧縮して再構成するモデル。潜在空間は点の集合で、構造的な保証はない。</p>
-      </div>
-      <div class="card card-indigo" style="padding:24px;">
-        <div style="font-size:1.5rem;margin-bottom:12px;">🎲</div>
-        <div class="card-title">VAE = 確率的生成モデル</div>
-        <p>潜在空間を確率分布として整え、ランダムサンプリングで新しいデータを生成できる。</p>
-      </div>
-      <div class="card card-emerald" style="padding:24px;">
-        <div style="font-size:1.5rem;margin-bottom:12px;">🔑</div>
-        <div class="card-title">鍵は「点 vs 分布」</div>
-        <p>AE は潜在変数を「点」として扱い、VAE は「分布」として扱う。この違いがすべての違いの源泉。</p>
-      </div>
+      <div class="card card-blue" style="padding:24px;"><div style="font-size:1.5rem;margin-bottom:12px;">🗜️</div><div class="card-title">AE = 圧縮器</div><p>うまく圧縮して再構成するモデル。潜在空間は点の集合で、構造的な保証はない。</p></div>
+      <div class="card card-indigo" style="padding:24px;"><div style="font-size:1.5rem;margin-bottom:12px;">🎲</div><div class="card-title">VAE = 確率的生成モデル</div><p>潜在空間を確率分布として整え、ランダムサンプリングで新しいデータを生成できる。</p></div>
+      <div class="card card-emerald" style="padding:24px;"><div style="font-size:1.5rem;margin-bottom:12px;">🔑</div><div class="card-title">鍵は「点 vs 分布」</div><p>AE は潜在変数を「点」として扱い、VAE は「分布」として扱う。この違いがすべての源泉。</p></div>
     </div>
-
     <div class="h-divider"></div>
-
     <div class="callout callout-blue">
       <div class="callout-icon">📌</div>
-      <div class="callout-body" style="font-size:1rem;">
-        <strong>一行まとめ：</strong>
-        AE は「再構成重視の表現学習」、VAE は「生成と滑らかな潜在空間のための確率的モデリング」。
-        両者の本質的な違いは <strong>潜在変数を確率分布として扱うかどうか</strong> にあります。
-      </div>
+      <div class="callout-body" style="font-size:1rem;"><strong>一行まとめ：</strong> AE は「再構成重視の表現学習」、VAE は「生成と滑らかな潜在空間のための確率的モデリング」。両者の本質的な違いは <strong>潜在変数を確率分布として扱うかどうか</strong> にあります。</div>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
 <footer>
   <div class="footer-inner">
     <div class="footer-links">
@@ -1116,16 +773,354 @@ loss <span class="op">=</span> recon_loss <span class="op">+</span> kl_loss</div
       <a href="#vae">VAE</a>
       <a href="#reparam">Reparameterization</a>
       <a href="#compare">比較</a>
+      <a href="#interactive">インタラクティブ</a>
       <a href="#usecases">用途</a>
       <a href="#impl">実装</a>
     </div>
-    <p style="color:#6b7280;font-size:0.83rem;">
-      Autoencoder &amp; VAE Study Guide ·
-      <a href="compare_ae_vae.ipynb">compare_ae_vae.ipynb</a> ·
-      <a href="ae_vae_textbook.html">教科書版</a>
-    </p>
+    <p style="color:#6b7280;font-size:0.83rem;">Autoencoder &amp; VAE Study Guide · <a href="compare_ae_vae.ipynb">compare_ae_vae.ipynb</a> · <a href="ae_vae_textbook.html">教科書版</a></p>
   </div>
 </footer>
 
+<script>
+// ── Utilities ──────────────────────────────────────────────
+const rng = (seed) => {
+  let s = seed;
+  return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
+};
+
+const COLORS = [
+  '#3b82f6','#8b5cf6','#10b981','#f59e0b','#ef4444',
+  '#06b6d4','#ec4899','#84cc16','#f97316','#6366f1'
+];
+
+function switchTab(name) {
+  document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`#tab-${name}`).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'latent') updateLatentDemo();
+  if (name === 'dim') updateDimDemo();
+  if (name === 'interp') updateInterpDemo();
+}
+
+// ── Tab 1: Latent Space β ──────────────────────────────────
+function updateLatentDemo() {
+  const beta    = parseFloat(document.getElementById('beta-slider').value);
+  const nClass  = parseInt(document.getElementById('class-slider').value);
+  const nPts    = parseInt(document.getElementById('npts-slider').value);
+  document.getElementById('beta-val').textContent   = beta.toFixed(1);
+  document.getElementById('class-val').textContent  = nClass;
+  document.getElementById('npts-val').textContent   = nPts;
+
+  const canvas = document.getElementById('canvas-latent');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  ctx.fillStyle = '#f9fafb';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = '#e5e7eb';
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= W; x += W/10) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for (let y = 0; y <= H; y += H/8)  { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // Axes
+  ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, H/2); ctx.lineTo(W, H/2); ctx.stroke();
+
+  // Unit circle (N(0,1) 2σ boundary)
+  ctx.strokeStyle = '#dbeafe'; ctx.lineWidth = 2; ctx.setLineDash([6,4]);
+  ctx.beginPath();
+  const cx = W/2, cy = H/2;
+  const scaleX = W / 8, scaleY = H / 6;
+  ctx.ellipse(cx, cy, 2*scaleX, 2*scaleY, 0, 0, Math.PI*2);
+  ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#93c5fd'; ctx.font = '11px sans-serif';
+  ctx.fillText('2σ (N(0,I))', cx + 2*scaleX + 4, cy);
+
+  // Cluster centers (spread depends on 1/β)
+  const spread = beta < 0.1 ? 3.5 : (1.0 / Math.sqrt(beta + 0.05)) * 3;
+  const angleStep = (Math.PI * 2) / nClass;
+  let totalRecon = 0, totalKL = 0;
+
+  for (let c = 0; c < nClass; c++) {
+    const angle = angleStep * c;
+    const r = spread;
+    const muX = Math.cos(angle) * r;
+    const muY = Math.sin(angle) * r;
+    // variance: when β high → σ small
+    const sigma = beta < 0.1 ? 0.9 : 0.4 / Math.sqrt(beta + 0.1);
+    const rand = rng(c * 997 + 1);
+
+    for (let i = 0; i < nPts; i++) {
+      // Box-Muller
+      const u1 = rand() + 1e-10, u2 = rand();
+      const zx = muX + sigma * Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2);
+      const zy = muY + sigma * Math.sqrt(-2*Math.log(u1)) * Math.sin(2*Math.PI*u2);
+      const px = cx + zx * scaleX;
+      const py = cy + zy * scaleY;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = COLORS[c % COLORS.length] + 'bb';
+      ctx.fill();
+    }
+
+    // KL for this cluster: -0.5*(1 + log(σ²) - μ² - σ²) per dim (2D)
+    const klC = -0.5 * 2 * (1 + Math.log(sigma*sigma) - (muX*muX + muY*muY)/2 - sigma*sigma);
+    totalKL += Math.max(0, klC);
+    totalRecon += sigma * 2 + spread * 0.5;
+  }
+
+  const avgRecon = (totalRecon / nClass).toFixed(2);
+  const avgKL    = (totalKL    / nClass * beta).toFixed(2);
+  const total    = (parseFloat(avgRecon) + parseFloat(avgKL)).toFixed(2);
+  document.getElementById('m-recon').textContent  = avgRecon;
+  document.getElementById('m-kl').textContent     = avgKL;
+  document.getElementById('m-total').textContent  = total;
+
+  // Hint
+  let hint = '';
+  if (beta < 0.1) hint = 'β ≈ 0 → AE に近い状態。クラスが遠くに散らばり、潜在空間に「穴」が生まれます。';
+  else if (beta < 0.5) hint = `β = ${beta.toFixed(1)} → KL が弱い。クラスは分かれていますが、まだ N(0,I) の外に広がっています。`;
+  else if (beta < 1.5) hint = `β = ${beta.toFixed(1)} → 標準 VAE。クラスのクラスタが N(0,I) の 2σ 範囲に収まっています。`;
+  else if (beta < 3)   hint = `β = ${beta.toFixed(1)} → β-VAE。潜在空間がよりコンパクトに。再構成精度はやや犠牲になります。`;
+  else                  hint = `β = ${beta.toFixed(1)} → 強い KL 正則化。クラスが原点に圧縮され、Disentanglement が期待できますが再構成は粗くなります。`;
+  document.getElementById('beta-hint').textContent = hint;
+}
+
+// ── Tab 2: Latent Dim ──────────────────────────────────────
+function updateDimDemo() {
+  const d = parseInt(document.getElementById('dim-slider').value);
+  const n = parseInt(document.getElementById('indim-slider').value);
+  document.getElementById('dim-val').textContent   = d;
+  document.getElementById('indim-val').textContent = n;
+
+  const canvas = document.getElementById('canvas-dim');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f9fafb'; ctx.fillRect(0, 0, W, H);
+
+  const padL = 60, padR = 20, padT = 30, padB = 50;
+  const gW = W - padL - padR, gH = H - padT - padB;
+
+  // Draw axes
+  ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(padL, padT); ctx.lineTo(padL, padT+gH); ctx.lineTo(padL+gW, padT+gH); ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#6b7280'; ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('潜在次元 d', padL + gW/2, H - 6);
+  ctx.save(); ctx.translate(14, padT + gH/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('値', 0, 0); ctx.restore();
+
+  const maxD = 64;
+  const steps = 80;
+
+  // Recon loss curve (decreases with d)
+  ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2.5; ctx.setLineDash([]);
+  ctx.beginPath();
+  for (let i = 0; i <= steps; i++) {
+    const di = (i / steps) * maxD;
+    const recon = 1.0 / (1 + di * 0.08) + 0.05;
+    const px = padL + (di / maxD) * gW;
+    const py = padT + gH - recon * gH * 0.85;
+    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+
+  // KL capacity (increases then plateaus)
+  ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 2.5; ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  for (let i = 0; i <= steps; i++) {
+    const di = (i / steps) * maxD;
+    const gen = 1 - 1 / (1 + di * 0.06) - 0.05;
+    const px = padL + (di / maxD) * gW;
+    const py = padT + gH - gen * gH * 0.85;
+    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // Current d marker
+  const curRecon = 1.0 / (1 + d * 0.08) + 0.05;
+  const curGen   = 1 - 1 / (1 + d * 0.06) - 0.05;
+  const mx = padL + (d / maxD) * gW;
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(mx, padT); ctx.lineTo(mx, padT+gH); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#3b82f6'; ctx.beginPath(); ctx.arc(mx, padT + gH - curRecon * gH * 0.85, 6, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#8b5cf6'; ctx.beginPath(); ctx.arc(mx, padT + gH - curGen   * gH * 0.85, 6, 0, Math.PI*2); ctx.fill();
+
+  // Legend
+  ctx.textAlign = 'left'; ctx.font = '12px sans-serif';
+  ctx.fillStyle = '#3b82f6'; ctx.fillRect(padL+10, padT+10, 20, 3); ctx.fillStyle = '#374151'; ctx.fillText('再構成品質', padL+36, padT+14);
+  ctx.fillStyle = '#8b5cf6'; ctx.fillRect(padL+10, padT+28, 20, 3); ctx.fillStyle = '#374151'; ctx.fillText('生成・圧縮効果', padL+36, padT+32);
+
+  // X axis ticks
+  ctx.fillStyle = '#9ca3af'; ctx.textAlign = 'center'; ctx.font = '11px sans-serif';
+  [0, 8, 16, 32, 64].forEach(v => {
+    const px = padL + (v / maxD) * gW;
+    ctx.fillText(v, px, padT + gH + 16);
+  });
+
+  const ratio   = (d / n * 100).toFixed(1) + '%';
+  const reconEst= (curRecon * 100).toFixed(0) + '%';
+  const infoEst = (curGen   * 100).toFixed(0) + '%';
+  document.getElementById('m-ratio').textContent    = ratio;
+  document.getElementById('m-dimrecon').textContent = reconEst;
+  document.getElementById('m-info').textContent     = infoEst;
+
+  let hint = '';
+  if (d <= 2) hint = `d = ${d} — 超低次元。可視化に便利ですが、情報の損失が大きく再構成品質は低下します。`;
+  else if (d <= 8) hint = `d = ${d} — MNIST などシンプルなデータに適した次元。再構成とコンパクト性のバランスが取れています。`;
+  else if (d <= 32) hint = `d = ${d} — 中程度の次元。再構成品質は高いですが、生成時に「穴」が増えます。`;
+  else hint = `d = ${d} — 高次元。AE に近い挙動で、生成能力よりも再構成忠実度が優先されます。`;
+  document.getElementById('dim-hint').textContent = hint;
+}
+
+// ── Tab 3: Interpolation ──────────────────────────────────
+function updateInterpDemo() {
+  const alpha = parseFloat(document.getElementById('alpha-slider').value);
+  const mode  = document.querySelector('input[name=interp-mode]:checked').value;
+  document.getElementById('alpha-val').textContent = alpha.toFixed(2);
+
+  const canvas = document.getElementById('canvas-interp');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f9fafb'; ctx.fillRect(0, 0, W, H);
+
+  const cx = W/2, cy = H/2;
+  const scaleX = W / 8, scaleY = H / 6;
+
+  // Grid
+  ctx.strokeStyle = '#e5e7eb'; ctx.lineWidth = 1;
+  for (let x = 0; x <= W; x += W/10) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+  for (let y = 0; y <= H; y += H/8)  { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+  // Axes
+  ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(W/2,0); ctx.lineTo(W/2,H); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+
+  // N(0,I) boundary
+  ctx.strokeStyle = '#dbeafe'; ctx.lineWidth = 1.5; ctx.setLineDash([6,4]);
+  ctx.beginPath(); ctx.ellipse(cx, cy, 2*scaleX, 2*scaleY, 0, 0, Math.PI*2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Two clusters for AE (scattered, far from origin)
+  const aA = { x: -2.5, y: -1.5 };
+  const aB = { x:  2.5, y:  1.5 };
+  // Two clusters for VAE (close to origin)
+  const vA = { x: -1.2, y: -0.8 };
+  const vB = { x:  1.2, y:  0.8 };
+
+  const drawCluster = (mu, sigma, color, n) => {
+    const rand = rng(mu.x * 1000 + mu.y * 100);
+    for (let i = 0; i < n; i++) {
+      const u1 = rand() + 1e-10, u2 = rand();
+      const zx = mu.x + sigma * Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2);
+      const zy = mu.y + sigma * Math.sqrt(-2*Math.log(u1)) * Math.sin(2*Math.PI*u2);
+      ctx.beginPath();
+      ctx.arc(cx + zx*scaleX, cy + zy*scaleY, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = color + '88'; ctx.fill();
+    }
+  };
+
+  // AE clusters (scattered, no structure guarantee)
+  drawCluster(aA, 0.25, '#3b82f6', 60);
+  drawCluster(aB, 0.25, '#ef4444', 60);
+
+  // VAE clusters
+  drawCluster(vA, 0.35, '#6366f1', 60);
+  drawCluster(vB, 0.35, '#10b981', 60);
+
+  // Labels
+  ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#3b82f6';
+  ctx.fillText('AE: A', cx + aA.x*scaleX, cy + aA.y*scaleY - 12);
+  ctx.fillStyle = '#ef4444';
+  ctx.fillText('AE: B', cx + aB.x*scaleX, cy + aB.y*scaleY - 12);
+  ctx.fillStyle = '#6366f1';
+  ctx.fillText('VAE: A', cx + vA.x*scaleX, cy + vA.y*scaleY - 12);
+  ctx.fillStyle = '#10b981';
+  ctx.fillText('VAE: B', cx + vB.x*scaleX, cy + vB.y*scaleY - 12);
+
+  // Interpolation
+  const lerp = (a, b, t) => ({ x: a.x*(1-t) + b.x*t, y: a.y*(1-t) + b.y*t });
+  const slerp = (a, b, t) => {
+    const dot = (a.x*b.x + a.y*b.y) / (Math.sqrt(a.x**2+a.y**2) * Math.sqrt(b.x**2+b.y**2) + 1e-8);
+    const theta = Math.acos(Math.min(1, Math.max(-1, dot)));
+    if (Math.abs(theta) < 1e-6) return lerp(a, b, t);
+    const st = Math.sin(theta);
+    return { x: (Math.sin((1-t)*theta)/st)*a.x + (Math.sin(t*theta)/st)*b.x,
+             y: (Math.sin((1-t)*theta)/st)*a.y + (Math.sin(t*theta)/st)*b.y };
+  };
+  const interp = mode === 'slerp' ? slerp : lerp;
+
+  // Draw AE path (dashed, may go through empty region)
+  ctx.strokeStyle = '#93c5fd'; ctx.lineWidth = 2; ctx.setLineDash([5,4]);
+  ctx.beginPath();
+  for (let t = 0; t <= 1; t += 0.05) {
+    const pt = interp(aA, aB, t);
+    t === 0 ? ctx.moveTo(cx+pt.x*scaleX, cy+pt.y*scaleY) : ctx.lineTo(cx+pt.x*scaleX, cy+pt.y*scaleY);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+
+  // Draw VAE path (solid, stays in structured region)
+  ctx.strokeStyle = '#818cf8'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let t = 0; t <= 1; t += 0.05) {
+    const pt = interp(vA, vB, t);
+    t === 0 ? ctx.moveTo(cx+pt.x*scaleX, cy+pt.y*scaleY) : ctx.lineTo(cx+pt.x*scaleX, cy+pt.y*scaleY);
+  }
+  ctx.stroke();
+
+  // Current interpolation points
+  const aPt = interp(aA, aB, alpha);
+  const vPt = interp(vA, vB, alpha);
+
+  // AE current point
+  ctx.fillStyle = '#2563eb';
+  ctx.beginPath(); ctx.arc(cx+aPt.x*scaleX, cy+aPt.y*scaleY, 8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('AE', cx+aPt.x*scaleX, cy+aPt.y*scaleY+4);
+
+  // VAE current point
+  ctx.fillStyle = '#4f46e5';
+  ctx.beginPath(); ctx.arc(cx+vPt.x*scaleX, cy+vPt.y*scaleY, 8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.fillText('VAE', cx+vPt.x*scaleX, cy+vPt.y*scaleY+4);
+
+  // Is AE point in "empty" zone (outside both clusters)?
+  const distA = Math.sqrt((aPt.x-aA.x)**2+(aPt.y-aA.y)**2);
+  const distB = Math.sqrt((aPt.x-aB.x)**2+(aPt.y-aB.y)**2);
+  const inGap = distA > 0.5 && distB > 0.5;
+  const gapPct = Math.min(100, Math.round((1 - Math.min(distA, distB) / 2) * 100));
+  const vaeContPct = Math.round((1 - Math.sqrt(vPt.x**2+vPt.y**2)/2) * 80 + 20);
+  const qualityPct = Math.round((1 - alpha*alpha*(1-alpha)*(1-alpha)*4) * 100);
+
+  document.getElementById('m-ae-gap').textContent   = inGap ? gapPct + '%' : '0%';
+  document.getElementById('m-vae-cont').textContent = vaeContPct + '%';
+  document.getElementById('m-interp-q').textContent = qualityPct + '%';
+
+  const modeLabel = mode === 'slerp' ? '球面補間 (SLERP)' : '線形補間 (LERP)';
+  let hint = `α = ${alpha.toFixed(2)}、${modeLabel}。`;
+  if (inGap) hint += ' AE の補間点は空白地帯に落ちており、意味のある出力が得られない可能性があります。VAE は潜在空間が整っているため補間が自然です。';
+  else if (alpha < 0.1) hint += ' 点 A に近い状態。';
+  else if (alpha > 0.9) hint += ' 点 B に近い状態。';
+  else hint += ' VAE の補間点は構造化された潜在空間の内部にあり、自然な中間表現が期待できます。';
+  document.getElementById('interp-hint').textContent = hint;
+}
+
+// Initial render
+updateLatentDemo();
+updateDimDemo();
+updateInterpDemo();
+</script>
 </body>
 </html>
