@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoencoder と VAE の数理と挙動</title>
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --paper: #fffdfa;
+      --ink: #1b1815;
+      --muted: #675f57;
+      --line: #d9ccbb;
+      --teal: #0f5f73;
+      --teal-soft: #deeff3;
+      --rust: #8d422f;
+      --gold: #b88b35;
+      --shadow: 0 20px 50px rgba(41, 31, 20, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+      line-height: 1.8;
+      background:
+        radial-gradient(circle at top left, rgba(184, 139, 53, 0.15), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(15, 95, 115, 0.14), transparent 28%),
+        linear-gradient(180deg, #f6f1e8 0%, #ede5d7 100%);
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 28px));
+      margin: 18px auto 42px;
+      background: var(--paper);
+      border: 1px solid rgba(141, 66, 47, 0.12);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 9px;
+      background: linear-gradient(180deg, var(--gold), #dbc17f);
+    }
+
+    header {
+      padding: 56px 56px 28px 72px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(15, 95, 115, 0.08), transparent 48%),
+        linear-gradient(180deg, rgba(184, 139, 53, 0.1), transparent 100%);
+    }
+
+    main {
+      padding: 28px 56px 56px 72px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 3.7rem);
+      max-width: 13ch;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 2.3vw, 2.05rem);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+      margin-top: 0;
+    }
+
+    h3 {
+      font-size: 1.16rem;
+      color: var(--rust);
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    section {
+      margin-bottom: 44px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: 0.84rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+
+    .lead {
+      max-width: 64ch;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 239, 231, 0.95));
+      padding: 18px 20px;
+    }
+
+    .accent {
+      background: linear-gradient(180deg, rgba(222, 239, 243, 0.8), rgba(255, 255, 255, 0.95));
+    }
+
+    .formula {
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.94rem;
+      background: #f3ede2;
+      border-left: 4px solid var(--gold);
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin: 16px 0 18px;
+    }
+
+    .flow {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .flow-row {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .box {
+      min-height: 74px;
+      border: 1px solid var(--line);
+      background: white;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .arrow {
+      font-size: 1.6rem;
+      color: var(--teal);
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--teal-soft);
+      text-align: left;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      background: rgba(15, 95, 115, 0.08);
+      padding: 0.12em 0.35em;
+      font-size: 0.92em;
+    }
+
+    .lab {
+      border: 1px solid rgba(15, 95, 115, 0.22);
+      background:
+        linear-gradient(180deg, rgba(222, 239, 243, 0.55), rgba(255, 255, 255, 0.96)),
+        white;
+      padding: 22px;
+    }
+
+    .lab-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .lab-note {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .controls {
+      display: grid;
+      gap: 14px;
+    }
+
+    .control {
+      display: grid;
+      gap: 6px;
+    }
+
+    .control-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--rust);
+    }
+
+    .metrics {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 14px;
+    }
+
+    .metric-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 1.14rem;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,239,230,0.88));
+      display: block;
+    }
+
+    .decoder-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .pixel {
+      aspect-ratio: 1;
+      border: 1px solid rgba(27, 24, 21, 0.08);
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 10px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    @media (max-width: 920px) {
+      header,
+      main {
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .two,
+      .three,
+      .flow-row,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        transform: rotate(90deg);
+      }
+
+      .lab-header {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="shell">
+    <header>
+      <p class="eyebrow">GitHub Pages Ready / Interactive Notes</p>
+      <h1>Autoencoder と VAE の数理を理解し、パラメータを動かして挙動を観察する</h1>
+      <p class="lead">
+        このページは GitHub Pages にそのまま置ける静的 HTML です。
+        教科書的な説明を読みながら、<code>μ</code>、<code>logσ²</code>、<code>β</code>、
+        再構成誤差などのパラメータを動かして、VAE のふるまいをその場で確認できます。
+      </p>
+    </header>
+
+    <main>
+      <section>
+        <h2>1. 基本の見取り図</h2>
+        <p>
+          Autoencoder は、入力を圧縮してから元に戻すことで、データの特徴を潜在表現に押し込めます。
+          VAE はその構造を保ちながら、潜在表現を「確率分布」として扱うように拡張したモデルです。
+        </p>
+        <div class="grid two">
+          <div class="card">
+            <h3>Autoencoder</h3>
+            <div class="flow">
+              <div class="flow-row">
+                <div class="box">入力 <code>x</code></div>
+                <div class="arrow">→</div>
+                <div class="box">Encoder<br><code>z = f(x)</code></div>
+                <div class="arrow">→</div>
+                <div class="box">Decoder<br><code>x̂ = g(z)</code></div>
+              </div>
+            </div>
+            <div class="formula">L_AE = L_recon(x, x̂)</div>
+          </div>
+          <div class="card accent">
+            <h3>Variational Autoencoder</h3>
+            <div class="flow">
+              <div class="flow-row">
+                <div class="box">入力 <code>x</code></div>
+                <div class="arrow">→</div>
+                <div class="box">Encoder<br><code>μ(x), logσ²(x)</code></div>
+                <div class="arrow">→</div>
+                <div class="box">Decoder へ<br><code>z = μ + εσ</code></div>
+              </div>
+            </div>
+            <div class="formula">L_VAE = L_recon(x, x̂) + β D_KL(q(z|x) || p(z))</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>2. 数理的な解説</h2>
+        <div class="grid two">
+          <div class="card">
+            <h3>2.1 Autoencoder の目的</h3>
+            <p>
+              Autoencoder は入力 <code>x</code> を潜在変数 <code>z</code> に圧縮し、
+              その <code>z</code> から入力を再構成した <code>x̂</code> が元に近くなるように学習します。
+            </p>
+            <div class="formula">
+              z = f_θ(x)<br>
+              x̂ = g_φ(z)<br>
+              L_recon = ||x - x̂||²
+            </div>
+            <p>
+              ただし、潜在空間に強い制約がないため、学習後の <code>z</code> は不規則に散らばりやすく、
+              ランダムに <code>z</code> を与えてもうまく生成できないことがあります。
+            </p>
+          </div>
+          <div class="card">
+            <h3>2.2 VAE の目的</h3>
+            <p>
+              VAE では各入力に対して 1 つの点を出すのではなく、
+              条件付き分布 <code>q_φ(z|x)</code> をガウス分布として近似します。
+            </p>
+            <div class="formula">
+              q_φ(z|x) = N(z; μ(x), diag(σ²(x)))<br>
+              p(z) = N(0, I)
+            </div>
+            <p>
+              Encoder は平均 <code>μ</code> と分散 <code>σ²</code> を決め、
+              その分布からサンプリングした潜在変数で Decoder を動かします。
+            </p>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <h3>2.3 Reparameterization Trick</h3>
+            <p>
+              乱数サンプリングをそのままモデルの中に入れると勾配計算が扱いにくくなります。
+              そこで次のように書き換えます。
+            </p>
+            <div class="formula">
+              ε ~ N(0, I)<br>
+              σ = exp(0.5 logσ²)<br>
+              z = μ + σ ⊙ ε
+            </div>
+            <p>
+              これで乱数は <code>ε</code> に分離され、<code>μ</code> や <code>logσ²</code> に対して勾配を流せます。
+            </p>
+          </div>
+          <div class="card">
+            <h3>2.4 KL Divergence の意味</h3>
+            <p>
+              VAE は、事後分布 <code>q(z|x)</code> が事前分布 <code>p(z)=N(0,I)</code> に近づくように制約します。
+              1 次元ガウスなら KL 項は次で書けます。
+            </p>
+            <div class="formula">
+              D_KL(q||p)
+              = 0.5 (μ² + σ² - logσ² - 1)
+            </div>
+            <p>
+              <code>μ</code> が原点から離れすぎたり、分散が極端になったりすると、この値が大きくなります。
+            </p>
+          </div>
+        </div>
+
+        <div class="card accent">
+          <h3>2.5 ELBO の見方</h3>
+          <p>
+            VAE は厳密には対数尤度 <code>log p(x)</code> を直接最大化する代わりに、その下界である ELBO を最大化します。
+            損失としては ELBO の負号を最小化する形で実装されます。
+          </p>
+          <div class="formula">
+            ELBO = E_q[log p(x|z)] - D_KL(q(z|x) || p(z))<br>
+            Loss = -ELBO = Reconstruction Loss + KL Loss
+          </div>
+          <p>
+            直感的には、1 項目が「ちゃんと戻せるか」、2 項目が「潜在空間を標準正規に近づけるか」です。
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2>3. AE と VAE の比較表</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>観点</th>
+              <th>Autoencoder</th>
+              <th>VAE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Encoder の出力</td>
+              <td><code>z</code> を直接出す</td>
+              <td><code>μ</code> と <code>logσ²</code> を出す</td>
+            </tr>
+            <tr>
+              <td>潜在空間</td>
+              <td>自由で不規則になりやすい</td>
+              <td>標準正規分布に近づく</td>
+            </tr>
+            <tr>
+              <td>生成</td>
+              <td>苦手</td>
+              <td>得意</td>
+            </tr>
+            <tr>
+              <td>損失</td>
+              <td>再構成誤差のみ</td>
+              <td>再構成誤差 + KL 項</td>
+            </tr>
+            <tr>
+              <td>典型的な見え方</td>
+              <td>再構成は鋭いが潜在空間が乱れやすい</td>
+              <td>再構成は少し平滑化されるが補間と生成が自然</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="lab">
+        <div class="lab-header">
+          <div>
+            <h2>4. インタラクティブ実験 A: μ, logσ², β を動かして VAE 損失を見る</h2>
+            <p class="lab-note">この実験は数式に忠実です。KL、再パラメータ化、総損失の変化を直接観察できます。</p>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="controls">
+            <div class="control">
+              <div class="control-top"><span><code>μ</code></span><strong id="muValue">0.00</strong></div>
+              <input id="muSlider" type="range" min="-3" max="3" step="0.01" value="0">
+            </div>
+            <div class="control">
+              <div class="control-top"><span><code>logσ²</code></span><strong id="logvarValue">0.00</strong></div>
+              <input id="logvarSlider" type="range" min="-4" max="3" step="0.01" value="0">
+            </div>
+            <div class="control">
+              <div class="control-top"><span><code>β</code></span><strong id="betaValue">1.00</strong></div>
+              <input id="betaSlider" type="range" min="0" max="5" step="0.01" value="1">
+            </div>
+            <div class="control">
+              <div class="control-top"><span>再構成誤差 <code>L_recon</code></span><strong id="reconValue">0.35</strong></div>
+              <input id="reconSlider" type="range" min="0" max="2" step="0.01" value="0.35">
+            </div>
+            <div class="control">
+              <div class="control-top"><span>サンプリング用 <code>ε</code></span><strong id="epsValue">0.00</strong></div>
+              <input id="epsSlider" type="range" min="-3" max="3" step="0.01" value="0">
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="metrics">
+              <div class="metric">
+                <span class="metric-label">標準偏差 <code>σ</code></span>
+                <span class="metric-value" id="sigmaMetric">1.0000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">サンプル <code>z = μ + σε</code></span>
+                <span class="metric-value" id="zMetric">0.0000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">KL loss</span>
+                <span class="metric-value" id="klMetric">0.0000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">総損失 <code>L = L_recon + β KL</code></span>
+                <span class="metric-value" id="totalMetric">0.3500</span>
+              </div>
+            </div>
+            <canvas id="gaussianCanvas" width="560" height="260" aria-label="Posterior and prior"></canvas>
+            <p class="caption" id="gaussianCaption"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="lab">
+        <div class="lab-header">
+          <div>
+            <h2>5. インタラクティブ実験 B: 2 次元潜在空間で事前分布と事後分布を見る</h2>
+            <p class="lab-note">2D の潜在分布を円と楕円で表示します。VAE が「分布を整える」モデルであることを視覚化します。</p>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="controls">
+            <div class="control">
+              <div class="control-top"><span><code>μ₁</code></span><strong id="mu1Value">0.80</strong></div>
+              <input id="mu1Slider" type="range" min="-3" max="3" step="0.01" value="0.8">
+            </div>
+            <div class="control">
+              <div class="control-top"><span><code>μ₂</code></span><strong id="mu2Value">-0.60</strong></div>
+              <input id="mu2Slider" type="range" min="-3" max="3" step="0.01" value="-0.6">
+            </div>
+            <div class="control">
+              <div class="control-top"><span><code>logσ₁²</code></span><strong id="logvar1Value">-0.20</strong></div>
+              <input id="logvar1Slider" type="range" min="-4" max="3" step="0.01" value="-0.2">
+            </div>
+            <div class="control">
+              <div class="control-top"><span><code>logσ₂²</code></span><strong id="logvar2Value">0.40</strong></div>
+              <input id="logvar2Slider" type="range" min="-4" max="3" step="0.01" value="0.4">
+            </div>
+            <div class="control">
+              <div class="control-top"><span>表示サンプル数</span><strong id="sampleCountValue">120</strong></div>
+              <input id="sampleCountSlider" type="range" min="20" max="240" step="1" value="120">
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="metrics">
+              <div class="metric">
+                <span class="metric-label">2D KL loss</span>
+                <span class="metric-value" id="kl2dMetric">0.0000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Posterior の広がり</span>
+                <span class="metric-value" id="spreadMetric">1.000 × 1.000</span>
+              </div>
+            </div>
+            <canvas id="latentCanvas" width="560" height="360" aria-label="2d latent space"></canvas>
+            <p class="caption" id="latentCaption"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="lab">
+        <div class="lab-header">
+          <div>
+            <h2>6. インタラクティブ実験 C: 潜在変数から Decoder 出力がどう変わるか</h2>
+            <p class="lab-note">実際の学習済みモデルではありません。潜在空間が滑らかに変化すると Decoder 出力も滑らかに変わる、という概念のデモです。</p>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="controls">
+            <div class="control">
+              <div class="control-top"><span><code>z₁</code></span><strong id="z1Value">0.00</strong></div>
+              <input id="z1Slider" type="range" min="-3" max="3" step="0.01" value="0">
+            </div>
+            <div class="control">
+              <div class="control-top"><span><code>z₂</code></span><strong id="z2Value">0.00</strong></div>
+              <input id="z2Slider" type="range" min="-3" max="3" step="0.01" value="0">
+            </div>
+            <div class="control">
+              <div class="control-top"><span>コントラスト</span><strong id="contrastValue">1.20</strong></div>
+              <input id="contrastSlider" type="range" min="0.4" max="3" step="0.01" value="1.2">
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="metric">
+              <span class="metric-label">Decoder の toy output</span>
+              <div class="decoder-grid" id="decoderGrid"></div>
+            </div>
+            <canvas id="manifoldCanvas" width="560" height="260" aria-label="decoder manifold"></canvas>
+            <p class="caption" id="manifoldCaption"></p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>7. どう読むと理解しやすいか</h2>
+        <div class="grid three">
+          <div class="card">
+            <h3>AE を学ぶとき</h3>
+            <p>まずは「圧縮して戻す」という役割に集中します。再構成誤差が小さくなることが第一です。</p>
+          </div>
+          <div class="card">
+            <h3>VAE を学ぶとき</h3>
+            <p>再構成だけでなく、潜在空間を正規分布に近づける理由を意識します。生成可能性がここで生まれます。</p>
+          </div>
+          <div class="card">
+            <h3><code>β</code> の解釈</h3>
+            <p><code>β</code> を上げると正則化が強くなり、潜在空間は整いますが、再構成は厳しくなりやすいです。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">
+        GitHub Pages では、このリポジトリのルートに <code>index.html</code> を置けばそのまま公開できます。
+        数式表示は画像や外部ライブラリに頼らず、静的 HTML と JavaScript だけで動く構成にしてあります。
+      </div>
+    </main>
+  </article>
+
+  <script>
+    const byId = (id) => document.getElementById(id);
+
+    const sliders = {
+      mu: byId("muSlider"),
+      logvar: byId("logvarSlider"),
+      beta: byId("betaSlider"),
+      recon: byId("reconSlider"),
+      eps: byId("epsSlider"),
+      mu1: byId("mu1Slider"),
+      mu2: byId("mu2Slider"),
+      logvar1: byId("logvar1Slider"),
+      logvar2: byId("logvar2Slider"),
+      sampleCount: byId("sampleCountSlider"),
+      z1: byId("z1Slider"),
+      z2: byId("z2Slider"),
+      contrast: byId("contrastSlider")
+    };
+
+    const sigmoid = (x) => 1 / (1 + Math.exp(-x));
+
+    function format(v, digits = 2) {
+      return Number(v).toFixed(digits);
+    }
+
+    function gaussianPdf(x, mu, sigma) {
+      return Math.exp(-0.5 * ((x - mu) / sigma) ** 2) / (sigma * Math.sqrt(2 * Math.PI));
+    }
+
+    function drawAxes(ctx, width, height, padding) {
+      ctx.strokeStyle = "rgba(27, 24, 21, 0.18)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(padding, height - padding);
+      ctx.lineTo(width - padding, height - padding);
+      ctx.moveTo(width / 2, padding);
+      ctx.lineTo(width / 2, height - padding);
+      ctx.stroke();
+    }
+
+    function updateLabA() {
+      const mu = Number(sliders.mu.value);
+      const logvar = Number(sliders.logvar.value);
+      const beta = Number(sliders.beta.value);
+      const recon = Number(sliders.recon.value);
+      const eps = Number(sliders.eps.value);
+      const sigma = Math.exp(0.5 * logvar);
+      const z = mu + sigma * eps;
+      const kl = 0.5 * (mu * mu + sigma * sigma - logvar - 1);
+      const total = recon + beta * kl;
+
+      byId("muValue").textContent = format(mu);
+      byId("logvarValue").textContent = format(logvar);
+      byId("betaValue").textContent = format(beta);
+      byId("reconValue").textContent = format(recon);
+      byId("epsValue").textContent = format(eps);
+      byId("sigmaMetric").textContent = format(sigma, 4);
+      byId("zMetric").textContent = format(z, 4);
+      byId("klMetric").textContent = format(kl, 4);
+      byId("totalMetric").textContent = format(total, 4);
+      byId("gaussianCaption").textContent =
+        `posterior q(z|x)=N(${format(mu, 2)}, ${format(sigma * sigma, 2)}) と prior p(z)=N(0,1) を重ねています。` +
+        ` μ が 0 から離れるか、σ が 1 から外れるほど KL は大きくなります。`;
+
+      const canvas = byId("gaussianCanvas");
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      const padding = 34;
+      ctx.clearRect(0, 0, width, height);
+      drawAxes(ctx, width, height, padding);
+
+      let maxPdf = 0;
+      for (let x = -4; x <= 4; x += 0.01) {
+        maxPdf = Math.max(maxPdf, gaussianPdf(x, 0, 1), gaussianPdf(x, mu, sigma));
+      }
+
+      function drawCurve(color, mean, std) {
+        ctx.beginPath();
+        for (let i = 0; i <= 400; i++) {
+          const x = -4 + (8 * i) / 400;
+          const pdf = gaussianPdf(x, mean, std);
+          const px = padding + (i / 400) * (width - padding * 2);
+          const py = height - padding - (pdf / maxPdf) * (height - padding * 2);
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+
+      drawCurve("#0f5f73", 0, 1);
+      drawCurve("#8d422f", mu, sigma);
+
+      const zX = padding + ((z + 4) / 8) * (width - padding * 2);
+      ctx.beginPath();
+      ctx.arc(zX, height - padding, 6, 0, Math.PI * 2);
+      ctx.fillStyle = "#b88b35";
+      ctx.fill();
+
+      ctx.fillStyle = "#1b1815";
+      ctx.font = "14px serif";
+      ctx.fillText("prior p(z)=N(0,1)", padding + 8, padding + 18);
+      ctx.fillText("posterior q(z|x)", padding + 170, padding + 18);
+      ctx.fillText("sampled z", zX - 28, height - padding - 12);
+    }
+
+    function randomNormal() {
+      let u = 0;
+      let v = 0;
+      while (u === 0) u = Math.random();
+      while (v === 0) v = Math.random();
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    }
+
+    function updateLabB() {
+      const mu1 = Number(sliders.mu1.value);
+      const mu2 = Number(sliders.mu2.value);
+      const logvar1 = Number(sliders.logvar1.value);
+      const logvar2 = Number(sliders.logvar2.value);
+      const sigma1 = Math.exp(0.5 * logvar1);
+      const sigma2 = Math.exp(0.5 * logvar2);
+      const count = Number(sliders.sampleCount.value);
+      const kl2d = 0.5 * (
+        mu1 * mu1 + sigma1 * sigma1 - logvar1 - 1 +
+        mu2 * mu2 + sigma2 * sigma2 - logvar2 - 1
+      );
+
+      byId("mu1Value").textContent = format(mu1);
+      byId("mu2Value").textContent = format(mu2);
+      byId("logvar1Value").textContent = format(logvar1);
+      byId("logvar2Value").textContent = format(logvar2);
+      byId("sampleCountValue").textContent = String(count);
+      byId("kl2dMetric").textContent = format(kl2d, 4);
+      byId("spreadMetric").textContent = `${format(sigma1, 3)} × ${format(sigma2, 3)}`;
+      byId("latentCaption").textContent =
+        "青い円は prior N(0, I)、赤い楕円は posterior q(z|x) を表します。VAE はこの赤い分布が青い円から大きく外れすぎないように学習します。";
+
+      const canvas = byId("latentCanvas");
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      const padding = 38;
+      ctx.clearRect(0, 0, width, height);
+
+      ctx.strokeStyle = "rgba(27,24,21,0.18)";
+      ctx.beginPath();
+      ctx.moveTo(padding, height / 2);
+      ctx.lineTo(width - padding, height / 2);
+      ctx.moveTo(width / 2, padding);
+      ctx.lineTo(width / 2, height - padding);
+      ctx.stroke();
+
+      const scale = (width - padding * 2) / 8;
+      const toX = (x) => width / 2 + x * scale;
+      const toY = (y) => height / 2 - y * scale;
+
+      ctx.beginPath();
+      ctx.strokeStyle = "#0f5f73";
+      ctx.lineWidth = 2.5;
+      ctx.ellipse(toX(0), toY(0), scale, scale, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.strokeStyle = "#8d422f";
+      ctx.lineWidth = 3;
+      ctx.ellipse(toX(mu1), toY(mu2), sigma1 * scale, sigma2 * scale, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(15, 95, 115, 0.35)";
+      for (let i = 0; i < count; i++) {
+        const x = randomNormal();
+        const y = randomNormal();
+        ctx.beginPath();
+        ctx.arc(toX(x), toY(y), 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = "rgba(141, 66, 47, 0.45)";
+      for (let i = 0; i < count; i++) {
+        const x = mu1 + sigma1 * randomNormal();
+        const y = mu2 + sigma2 * randomNormal();
+        ctx.beginPath();
+        ctx.arc(toX(x), toY(y), 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = "#1b1815";
+      ctx.font = "14px serif";
+      ctx.fillText("prior p(z)", padding + 10, padding + 18);
+      ctx.fillText("posterior q(z|x)", padding + 100, padding + 18);
+    }
+
+    const decoderWeights = [
+      [1.2, -0.6, 0.4],
+      [1.0, -0.2, 0.1],
+      [0.7, 0.3, -0.1],
+      [0.2, 0.9, -0.3],
+      [-0.2, 1.1, 0.0],
+      [-0.6, 0.8, 0.2],
+      [-1.0, 0.3, 0.1],
+      [-1.2, -0.2, 0.2],
+      [-1.1, -0.7, 0.0],
+      [-0.4, -1.0, -0.1],
+      [0.3, -1.1, 0.1],
+      [0.9, -0.8, 0.2],
+      [0.5, 0.0, -0.3],
+      [0.1, 0.2, -0.4],
+      [-0.2, 0.1, -0.2],
+      [-0.5, -0.1, -0.1]
+    ];
+
+    function updateLabC() {
+      const z1 = Number(sliders.z1.value);
+      const z2 = Number(sliders.z2.value);
+      const contrast = Number(sliders.contrast.value);
+      byId("z1Value").textContent = format(z1);
+      byId("z2Value").textContent = format(z2);
+      byId("contrastValue").textContent = format(contrast);
+
+      const grid = byId("decoderGrid");
+      grid.innerHTML = "";
+      const values = decoderWeights.map(([w1, w2, b]) => sigmoid(contrast * (w1 * z1 + w2 * z2 + b)));
+      values.forEach((value) => {
+        const cell = document.createElement("div");
+        cell.className = "pixel";
+        const shade = Math.round(value * 255);
+        cell.style.background = `rgb(${shade}, ${shade}, ${shade})`;
+        grid.appendChild(cell);
+      });
+
+      const canvas = byId("manifoldCanvas");
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      const padding = 24;
+      ctx.clearRect(0, 0, width, height);
+
+      for (let gx = 0; gx < 12; gx++) {
+        for (let gy = 0; gy < 6; gy++) {
+          const sampleZ1 = -3 + (6 * gx) / 11;
+          const sampleZ2 = -3 + (6 * gy) / 5;
+          const intensity = sigmoid((sampleZ1 * 0.8 + sampleZ2 * 1.1) * 0.7);
+          const hue = 190 - intensity * 40;
+          ctx.fillStyle = `hsl(${hue} 45% ${88 - intensity * 34}%)`;
+          const x = padding + gx * ((width - padding * 2) / 12);
+          const y = padding + gy * ((height - padding * 2) / 6);
+          ctx.fillRect(x, y, 38, 28);
+        }
+      }
+
+      const px = padding + ((z1 + 3) / 6) * (width - padding * 2);
+      const py = height - padding - ((z2 + 3) / 6) * (height - padding * 2);
+      ctx.beginPath();
+      ctx.arc(px, py, 8, 0, Math.PI * 2);
+      ctx.fillStyle = "#8d422f";
+      ctx.fill();
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      byId("manifoldCaption").textContent =
+        "潜在空間上の位置を動かすと Decoder 出力が滑らかに変わる、という考え方の toy 版です。" +
+        " VAE ではこの空間が連続的で扱いやすくなることが重要です。";
+    }
+
+    Object.values(sliders).forEach((slider) => slider.addEventListener("input", () => {
+      updateLabA();
+      updateLabB();
+      updateLabC();
+    }));
+
+    updateLabA();
+    updateLabB();
+    updateLabC();
+  </script>
+</body>
+</html>

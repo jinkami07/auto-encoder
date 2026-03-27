@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoencoder と VAE の比較</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --paper: #fffdf8;
+      --ink: #1d1a16;
+      --muted: #6f665d;
+      --line: #d6c9b7;
+      --accent: #0e5a6f;
+      --accent-soft: #d9edf2;
+      --accent-strong: #8e3b2e;
+      --gold: #b5872d;
+      --shadow: 0 18px 40px rgba(47, 37, 27, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(181, 135, 45, 0.16), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(14, 90, 111, 0.14), transparent 26%),
+        linear-gradient(180deg, #f7f2e8 0%, #efe7d8 100%);
+      line-height: 1.8;
+    }
+
+    .page {
+      width: min(1100px, calc(100vw - 32px));
+      margin: 24px auto 48px;
+      background: var(--paper);
+      border: 1px solid rgba(142, 59, 46, 0.12);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 10px;
+      background: linear-gradient(180deg, var(--gold), #d7b16f);
+    }
+
+    header {
+      padding: 56px 56px 28px 72px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(14, 90, 111, 0.08), transparent 46%),
+        linear-gradient(180deg, rgba(181, 135, 45, 0.08), transparent 100%);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      margin: 0 0 14px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      max-width: 12ch;
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      color: var(--accent-strong);
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    main {
+      padding: 28px 56px 56px 72px;
+    }
+
+    section {
+      margin: 0 0 42px;
+    }
+
+    .lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 62ch;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(244, 239, 230, 0.95));
+      padding: 20px;
+    }
+
+    .flow {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .flow-row {
+      display: grid;
+      gap: 10px;
+      align-items: center;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+    }
+
+    .box {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      text-align: center;
+      min-height: 72px;
+      display: grid;
+      place-items: center;
+    }
+
+    .arrow {
+      font-size: 1.6rem;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    .formula {
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.95rem;
+      background: #f1ece2;
+      border-left: 4px solid var(--gold);
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin: 14px 0 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.96rem;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--accent-soft);
+      text-align: left;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+      font-size: 0.92em;
+      background: rgba(14, 90, 111, 0.08);
+      padding: 0.12em 0.35em;
+    }
+
+    .note {
+      padding: 16px 18px;
+      border: 1px dashed var(--accent-strong);
+      background: rgba(142, 59, 46, 0.05);
+      color: #4c2a22;
+    }
+
+    .steps {
+      counter-reset: item;
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+
+    .footer {
+      padding-top: 20px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 860px) {
+      header,
+      main {
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .grid.two,
+      .flow-row {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <article class="page">
+    <header>
+      <p class="eyebrow">Neural Networks / Representation Learning</p>
+      <h1>Autoencoder と VAE の違いを、教科書的に整理する</h1>
+      <p class="lead">
+        「入力を圧縮して、また元に戻す」という見た目は似ていますが、
+        Autoencoder と Variational Autoencoder は学んでいるものがかなり違います。
+        このページは、実装より先に考え方を腹落ちさせるための整理です。
+      </p>
+    </header>
+
+    <main>
+      <section>
+        <h2>1. まず Autoencoder とは何か</h2>
+        <p>
+          Autoencoder は、入力 <code>x</code> をいったん低次元の潜在表現 <code>z</code> に圧縮し、
+          そこから入力を再構成するモデルです。目的は「元のデータをなるべく失わずに表現すること」です。
+        </p>
+        <div class="flow">
+          <div class="flow-row">
+            <div class="box">入力画像<br><code>x</code></div>
+            <div class="arrow">→</div>
+            <div class="box">Encoder<br><code>z = f(x)</code></div>
+            <div class="arrow">→</div>
+            <div class="box">Decoder<br><code>x̂ = g(z)</code></div>
+          </div>
+        </div>
+        <div class="formula">Loss = Reconstruction Error = ||x - x̂||² あるいは BCE(x, x̂)</div>
+        <div class="grid two">
+          <div class="card">
+            <h3>何を学ぶか</h3>
+            <p>各入力を再構成しやすいような潜在ベクトル <code>z</code> を学びます。</p>
+          </div>
+          <div class="card">
+            <h3>弱点</h3>
+            <p>潜在空間がばらばらでも困らないため、ランダムに <code>z</code> を振ると意味のある画像が出る保証はありません。</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>2. VAE は何を追加したのか</h2>
+        <p>
+          VAE は「潜在空間をきれいな確率分布にそろえる」という制約を加えたモデルです。
+          そのため、Encoder は 1 本のベクトルではなく、平均 <code>μ</code> と分散の情報 <code>logσ²</code> を出します。
+        </p>
+        <div class="flow">
+          <div class="flow-row">
+            <div class="box">入力画像<br><code>x</code></div>
+            <div class="arrow">→</div>
+            <div class="box">Encoder<br><code>μ(x), logσ²(x)</code></div>
+            <div class="arrow">→</div>
+            <div class="box">サンプリング<br><code>z = μ + εσ</code></div>
+          </div>
+        </div>
+        <div class="flow">
+          <div class="flow-row">
+            <div class="box">潜在変数<br><code>z</code></div>
+            <div class="arrow">→</div>
+            <div class="box">Decoder</div>
+            <div class="arrow">→</div>
+            <div class="box">再構成画像<br><code>x̂</code></div>
+          </div>
+        </div>
+        <div class="formula">
+          Loss = Reconstruction Loss + KL Divergence<br>
+          = L<sub>recon</sub>(x, x̂) + D<sub>KL</sub>(q(z|x) || N(0, I))
+        </div>
+        <div class="note">
+          KL 項は、「各データごとの潜在分布 <code>q(z|x)</code> が標準正規分布 <code>N(0, I)</code> に近づくようにする罰則」です。
+        </div>
+      </section>
+
+      <section>
+        <h2>3. Reparameterization Trick の意味</h2>
+        <p>
+          VAE では <code>z</code> を確率的にサンプリングしたいのですが、単純に乱数を挟むと逆伝播がしづらくなります。
+          そこで次の形に書き換えます。
+        </p>
+        <div class="formula">
+          ε ~ N(0, I)<br>
+          z = μ + σ ⊙ ε
+        </div>
+        <p>
+          こうすると、乱数は <code>ε</code> に押し込みつつ、<code>μ</code> と <code>σ</code> に対して勾配を流せます。
+          これが reparameterization trick です。
+        </p>
+      </section>
+
+      <section>
+        <h2>4. AE と VAE の違いを表で整理</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>観点</th>
+              <th>Autoencoder</th>
+              <th>VAE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Encoder の出力</td>
+              <td><code>z</code> を直接出す</td>
+              <td><code>μ</code> と <code>logσ²</code> を出す</td>
+            </tr>
+            <tr>
+              <td>潜在空間</td>
+              <td>自由に散らばりやすい</td>
+              <td>標準正規分布に近づくよう整えられる</td>
+            </tr>
+            <tr>
+              <td>損失</td>
+              <td>再構成誤差のみ</td>
+              <td>再構成誤差 + KL divergence</td>
+            </tr>
+            <tr>
+              <td>生成のしやすさ</td>
+              <td>弱い</td>
+              <td>強い</td>
+            </tr>
+            <tr>
+              <td>再構成の鋭さ</td>
+              <td>比較的シャープになりやすい</td>
+              <td>ややぼやけることがある</td>
+            </tr>
+            <tr>
+              <td>向いている用途</td>
+              <td>圧縮、特徴抽出、異常検知の前処理</td>
+              <td>生成、潜在空間の補間、分布としての学習</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>5. あなたのノートブックが VAE でなかった理由</h2>
+        <div class="grid two">
+          <div class="card">
+            <h3>元のノートブックの特徴</h3>
+            <ul>
+              <li><code>encoder(x)</code> がそのまま潜在変数 <code>z</code> を返す</li>
+              <li>損失が <code>MSELoss</code> だけ</li>
+              <li>KL 項がない</li>
+              <li><code>mu</code>, <code>logvar</code>, <code>reparameterize</code> がない</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>つまり何か</h3>
+            <p>それは「通常の Autoencoder」であり、VAE ではありません。</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>6. 実装で何を変えれば VAE になるか</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div>
+              <h3>Encoder の最後を 2 本に分ける</h3>
+              <p><code>z</code> を 1 本返す代わりに、<code>mu</code> と <code>logvar</code> を返します。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div>
+              <h3>サンプリングを書く</h3>
+              <p><code>z = mu + eps * std</code> の形で reparameterization を入れます。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div>
+              <h3>損失に KL 項を足す</h3>
+              <p>再構成誤差だけでなく、潜在分布を整える罰則を足します。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div>
+              <h3>評価の見方を変える</h3>
+              <p>再構成の良さだけでなく、潜在空間の滑らかさとサンプリング結果も見ます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>7. 学ぶときの見方</h2>
+        <div class="grid two">
+          <div class="card">
+            <h3>AE を見るポイント</h3>
+            <ul>
+              <li>再構成がどこまで忠実か</li>
+              <li>潜在空間でクラスが分かれているか</li>
+              <li>次元圧縮として使えるか</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>VAE を見るポイント</h3>
+            <ul>
+              <li>潜在空間が滑らかにつながるか</li>
+              <li>ランダムサンプリングで自然な画像が出るか</li>
+              <li>KL が強すぎて再構成が崩れていないか</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>8. 結論</h2>
+        <p>
+          Autoencoder は「うまく圧縮して戻すモデル」、VAE は「確率分布として潜在空間を整えながら生成もできるモデル」です。
+          両者の一番大きな違いは、VAE が潜在変数を点ではなく分布として扱うことにあります。
+        </p>
+        <p>
+          そのため、AE は再構成重視、VAE は生成と滑らかな潜在空間重視、と覚えると整理しやすいです。
+        </p>
+      </section>
+
+      <div class="footer">
+        このリポジトリには比較用のノートブック <code>compare_ae_vae.ipynb</code> と
+        スクリプト <code>compare_ae_vae.py</code> も置いてあります。理論を読んだあとに実装を見る流れで学ぶと理解しやすいはずです。
+      </div>
+    </main>
+  </article>
+</body>
+</html>
